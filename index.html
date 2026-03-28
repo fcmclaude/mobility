@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mobility">
+  <meta name="theme-color" content="#0f0f0f">
+  <title>Mobility</title>
+  <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Mobility&quot;,&quot;short_name&quot;:&quot;Mobility&quot;,&quot;start_url&quot;:&quot;./index.html&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0f0f&quot;,&quot;theme_color&quot;:&quot;#0f0f0f&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f0f0f' width='192' height='192'/%3E%3Ctext x='96' y='120' font-size='120' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;,&quot;purpose&quot;:&quot;any&quot;}]}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f0f0f' width='192' height='192'/%3E%3Ctext x='96' y='120' font-size='120' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E">
+  <apple-touch-icon href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230f0f0f' width='180' height='180'/%3E%3Ctext x='90' y='110' font-size='100' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #0f0f0f;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100%;
+      background: #0f0f0f;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 80px;
+      padding-top: 20px;
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-top: max(20px, env(safe-area-inset-top));
+      padding-bottom: max(80px, calc(80px + env(safe-area-inset-bottom)));
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #1a1a1a;
+      border-top: 1px solid #2a2a2a;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom);
+      z-index: 100;
+    }
+
+    .nav-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.3s;
+      font-size: 12px;
+    }
+
+    .nav-button.active {
+      color: #e8763a;
+    }
+
+    .nav-button svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #e8763a;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .session-card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+      border: 1px solid #2a2a2a;
+    }
+
+    .session-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .session-icon {
+      font-size: 32px;
+    }
+
+    .session-title {
+      flex: 1;
+    }
+
+    .session-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .session-description {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .exercises-preview {
+      background: #0f0f0f;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .exercise-item-preview {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #2a2a2a;
+      font-size: 14px;
+    }
+
+    .exercise-item-preview:last-child {
+      border-bottom: none;
+    }
+
+    .exercise-duration {
+      color: #999;
+      font-size: 12px;
+    }
+
+    .start-button {
+      background: #e8763a;
+      color: #0f0f0f;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .start-button:active {
+      background: #d65e24;
+    }
+
+    .notes-section {
+      margin-top: 24px;
+    }
+
+    .notes-label {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .notes-textarea {
+      background: #1a1a1a;
+      color: #ffffff;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 12px;
+      width: 100%;
+      min-height: 80px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: none;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    .notes-textarea:focus {
+      outline: none;
+      border-color: #e8763a;
+      background: #252525;
+    }
+
+    .progress-section {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .progress-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .week-mini-cal {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .day-box {
+      aspect-ratio: 1;
+      background: #0f0f0f;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid #2a2a2a;
+    }
+
+    .day-box.completed {
+      background: #10b981;
+      border-color: #10b981;
+      font-weight: 600;
+    }
+
+    .day-box.today {
+      border-color: #e8763a;
+      color: #e8763a;
+    }
+
+    /* Calendar Tab */
+    .calendar-container {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .calendar-nav-btn {
+      background: none;
+      border: none;
+      color: #e8763a;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .calendar-day-header {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      font-weight: 600;
+      padding: 8px 0;
+      text-transform: uppercase;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      font-size: 14px;
+      position: relative;
+    }
+
+    .calendar-day.other-month {
+      color: #555;
+    }
+
+    .calendar-day.today {
+      border: 2px solid #e8763a;
+      color: #e8763a;
+      font-weight: 600;
+    }
+
+    .calendar-day.completed::after {
+      content: '\2713';
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      color: #10b981;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .calendar-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .cal-stat {
+      background: #0f0f0f;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    /* History Tab */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-item {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid #e8763a;
+    }
+
+    .history-date {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+
+    .history-session {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .history-note {
+      font-size: 13px;
+      color: #ccc;
+      font-style: italic;
+    }
+
+    /* Session Overlay */
+    .session-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0f0f0f;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .session-overlay.active {
+      display: flex;
+    }
+
+    .session-header-bar {
+      background: #1a1a1a;
+      padding: 16px;
+      padding-top: max(16px, env(safe-area-inset-top));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .session-close-btn {
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .session-progress-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .session-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .exercise-animation {
+      width: 180px;
+      height: 180px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a1a;
+      border-radius: 20px;
+    }
+
+    .exercise-animation svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .timer-container {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin-bottom: 24px;
+    }
+
+    .timer-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .timer-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 44px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-label {
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: #999;
+    }
+
+    .exercise-name {
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .exercise-side {
+      font-size: 14px;
+      color: #999;
+      text-align: center;
+      margin-bottom: 16px;
+      min-height: 18px;
+    }
+
+    .exercise-cue {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      max-width: 100%;
+    }
+
+    .exercise-up-next {
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .control-btn {
+      background: #1a1a1a;
+      border: none;
+      color: #e8763a;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .control-btn:active {
+      background: #2a2a2a;
+    }
+
+    .control-btn.play-btn {
+      background: #e8763a;
+      color: #0f0f0f;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+    }
+
+    .control-btn.play-btn:active {
+      background: #d65e24;
+    }
+
+    .control-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .session-complete {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .complete-emoji {
+      font-size: 60px;
+      margin-bottom: 16px;
+    }
+
+    .complete-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .complete-stats {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+
+    .complete-stat-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #2a2a2a;
+      font-size: 14px;
+    }
+
+    .complete-stat-line:last-child {
+      border-bottom: none;
+    }
+
+    .complete-stat-label {
+      color: #999;
+    }
+
+    .complete-stat-value {
+      font-weight: 600;
+      color: #e8763a;
+    }
+
+    .complete-btn {
+      background: #e8763a;
+      color: #0f0f0f;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 24px;
+    }
+
+    .complete-btn:active {
+      background: #d65e24;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="content" id="mainContent">
+      <!-- Today Tab -->
+      <div class="tab active" id="todayTab">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-value" id="streakValue">0</div>
+            <div class="stat-label">Day Streak</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="sessionsValue">0</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="minutesValue">0</div>
+            <div class="stat-label">Minutes</div>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-title">This Week</div>
+          <div class="week-mini-cal" id="weekMiniCal"></div>
+        </div>
+
+        <div class="session-card" id="todaySessionCard">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="notes-section">
+          <label class="notes-label">Notes</label>
+          <textarea class="notes-textarea" id="notesTextarea" placeholder="How did it feel? Any adjustments needed?"></textarea>
+        </div>
+      </div>
+
+      <!-- Calendar Tab -->
+      <div class="tab" id="calendarTab">
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button class="calendar-nav-btn" id="prevMonthBtn">&#10094;</button>
+            <div class="calendar-title" id="monthTitle"></div>
+            <button class="calendar-nav-btn" id="nextMonthBtn">&#10095;</button>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="calendar-stats">
+            <div class="cal-stat">
+              <div class="stat-value" id="calSessions">0</div>
+              <div class="stat-label">Sessions</div>
+            </div>
+            <div class="cal-stat">
+              <div class="stat-value" id="calMinutes">0</div>
+              <div class="stat-label">Minutes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Tab -->
+      <div class="tab" id="historyTab">
+        <div class="history-list" id="historyList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <button class="nav-button active" id="todayNav" data-tab="todayTab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Today</span>
+      </button>
+      <button class="nav-button" id="calendarNav" data-tab="calendarTab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>Calendar</span>
+      </button>
+      <button class="nav-button" id="historyNav" data-tab="historyTab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>History</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Session Overlay -->
+  <div class="session-overlay" id="sessionOverlay">
+    <div class="session-header-bar">
+      <button class="session-close-btn" id="sessionCloseBtn">&#10005;</button>
+      <div class="session-progress-text" id="sessionProgress">1 / 10</div>
+      <div style="width: 30px;"></div>
+    </div>
+    <div class="session-content" id="sessionContent">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <script>
+    // Data
+    const SESSIONS = [
+      {
+        id: 'hip-opener',
+        name: 'Hip Opener Flow',
+        description: 'Open up tight hip flexors and improve external rotation \u2014 key areas for runners.',
+        icon: '\uD83D\uDD13',
+        color: '#e8763a',
+        exercises: [
+          { name: 'Hip Circles', duration: 40, sides: true, cue: 'Stand on one leg, draw big circles with the other knee. Controlled and smooth.', sideCue: ['Left leg circles', 'Right leg circles'] },
+          { name: "World's Greatest Stretch", duration: 50, sides: true, cue: 'Lunge forward, plant opposite hand, rotate torso up. Feel the hip flexor open.', sideCue: ['Left side', 'Right side'] },
+          { name: '90/90 Stretch', duration: 50, sides: true, cue: 'Sit with both knees at 90 degrees. Lean gently into the front hip. Don\'t force it \u2014 breathe into the tightness.', sideCue: ['Left hip forward', 'Right hip forward'] },
+          { name: 'Low Lunge Hip Flexor', duration: 50, sides: true, cue: 'Back knee down, front foot flat. Squeeze the back glute and shift forward. Arms overhead to deepen.', sideCue: ['Left hip flexor', 'Right hip flexor'] },
+          { name: 'Butterfly Stretch', duration: 50, sides: false, cue: 'Soles of feet together, knees out. Sit tall and gently press knees down with elbows. Hinge at the hips.' },
+          { name: 'Pigeon Pose', duration: 60, sides: true, cue: 'Front shin across, back leg extended. Stay upright or fold forward. Let gravity do the work.', sideCue: ['Left leg forward', 'Right leg forward'] },
+        ]
+      },
+      {
+        id: 'posterior-chain',
+        name: 'Posterior Chain Release',
+        description: 'Target hamstrings, glutes, and piriformis \u2014 critical for sciatica relief.',
+        icon: '\uD83D\uDD17',
+        color: '#6366f1',
+        exercises: [
+          { name: 'Cat-Cow', duration: 60, sides: false, cue: 'On all fours, alternate between arching and rounding your back. Sync with breath \u2014 inhale arch, exhale round.' },
+          { name: 'Figure-4 Stretch', duration: 55, sides: true, cue: 'Lie on your back, cross ankle over opposite knee. Pull the bottom leg toward you. Feel the deep glute stretch.', sideCue: ['Left glute', 'Right glute'] },
+          { name: 'Seated Forward Fold', duration: 55, sides: false, cue: 'Legs straight ahead, hinge from the hips \u2014 not the lower back. Reach for your shins or feet.' },
+          { name: 'Supine Hamstring Stretch', duration: 50, sides: true, cue: 'Lie on your back, one leg up. Use hands or a towel behind the thigh. Keep the leg as straight as comfortable.', sideCue: ['Left hamstring', 'Right hamstring'] },
+          { name: 'Glute Bridge Hold', duration: 50, sides: false, cue: 'Feet flat, drive hips up. Squeeze glutes hard at the top. Hold steady \u2014 don\'t let hips sag.' },
+          { name: 'Lying Spinal Twist', duration: 55, sides: true, cue: 'Knees stacked to one side, arms out in a T. Let the weight of your legs pull you into the twist.', sideCue: ['Knees to left', 'Knees to right'] },
+        ]
+      },
+      {
+        id: 'dynamic-mobility',
+        name: 'Dynamic Mobility',
+        description: 'Movement-based session to warm up joints through their full range of motion.',
+        icon: '\u26A1',
+        color: '#f59e0b',
+        exercises: [
+          { name: 'Leg Swings (Front-Back)', duration: 30, sides: true, cue: 'Hold something for balance. Swing the leg like a pendulum \u2014 relaxed, controlled, increasing range.', sideCue: ['Left leg swings', 'Right leg swings'] },
+          { name: 'Leg Swings (Side-Side)', duration: 30, sides: true, cue: 'Face a wall, swing the leg across your body and out. Keep your hips square.', sideCue: ['Left leg swings', 'Right leg swings'] },
+          { name: 'Walking Lunges + Twist', duration: 60, sides: false, cue: 'Step into a deep lunge, rotate your torso toward the front leg. Alternate legs.' },
+          { name: 'Inchworms', duration: 60, sides: false, cue: 'From standing, walk hands out to plank. Walk feet back toward hands. Keep legs as straight as possible.' },
+          { name: 'Cossack Squats', duration: 60, sides: false, cue: 'Wide stance, shift weight to one side into a deep side squat. Alternate sides. Go as deep as comfortable.' },
+          { name: 'Bear Crawl', duration: 50, sides: false, cue: 'On all fours, knees hovering just off the ground. Crawl forward and backward \u2014 opposite hand and foot move together.' },
+          { name: 'Deep Squat Hold + Shift', duration: 50, sides: false, cue: 'Sit into a deep squat. Shift weight side to side. Use a doorframe or post for balance if needed.' },
+        ]
+      },
+      {
+        id: 'deep-stretch',
+        name: 'Deep Stretch',
+        description: 'Longer holds for deeper tissue release. Great before bed.',
+        icon: '\uD83E\uDDD8',
+        color: '#8b5cf6',
+        exercises: [
+          { name: "Child's Pose", duration: 80, sides: false, cue: 'Knees wide, hips back to heels, arms reaching forward. Let your chest melt toward the floor. Breathe deep into your back.' },
+          { name: 'Frog Stretch', duration: 80, sides: false, cue: 'On all fours, widen your knees as far as comfortable. Shift your hips back. You should feel the inner thighs open up.' },
+          { name: 'Half Splits', duration: 60, sides: true, cue: 'From a low lunge, shift back and straighten the front leg. Hinge at the hips, keep back flat.', sideCue: ['Left leg straight', 'Right leg straight'] },
+          { name: 'Reclined Pigeon', duration: 70, sides: true, cue: 'Lie on your back, cross one ankle above the opposite knee. Pull the bottom thigh toward you. Relax your head and shoulders.', sideCue: ['Left side', 'Right side'] },
+          { name: 'Supine Spinal Twist', duration: 60, sides: true, cue: 'Arms out wide, let both knees fall to one side. Look the opposite direction. Breathe and let gravity deepen the twist.', sideCue: ['Twist left', 'Twist right'] },
+        ]
+      },
+      {
+        id: 'runners-recovery',
+        name: "Runner's Recovery",
+        description: 'Targeted stretches for the muscles that get tightest from running.',
+        icon: '\uD83C\uDFC3',
+        color: '#10b981',
+        exercises: [
+          { name: 'Standing Quad Stretch', duration: 45, sides: true, cue: 'Pull heel to glute, keep knees together. Push your hips slightly forward to deepen the stretch.', sideCue: ['Left quad', 'Right quad'] },
+          { name: 'Wall Calf Stretch', duration: 40, sides: true, cue: 'Hands on wall, back leg straight with heel pressed into the floor. Lean in until you feel the calf stretch.', sideCue: ['Left calf', 'Right calf'] },
+          { name: 'IT Band Cross-Body', duration: 40, sides: true, cue: 'Cross one leg behind the other, lean away from the back leg. You should feel a stretch along the outer hip/thigh.', sideCue: ['Left IT band', 'Right IT band'] },
+          { name: 'Kneeling Hip Flexor', duration: 50, sides: true, cue: 'Rear knee on a pad, front foot flat. Tuck your pelvis under (posterior tilt) and lean forward.', sideCue: ['Left hip flexor', 'Right hip flexor'] },
+          { name: 'Doorway Hamstring', duration: 50, sides: true, cue: 'Lie in a doorway, one leg up against the frame. Scoot closer to deepen. Keep the leg straight.', sideCue: ['Left hamstring', 'Right hamstring'] },
+          { name: 'Ankle Circles', duration: 30, sides: true, cue: 'Draw big circles with your foot. Full range in both directions. 15 seconds each direction.', sideCue: ['Left ankle', 'Right ankle'] },
+        ]
+      },
+      {
+        id: 'spinal-health',
+        name: 'Spinal Health',
+        description: 'Focus on your lower back and thoracic spine. Especially important for sciatica management.',
+        icon: '\uD83E\uDDB4',
+        color: '#06b6d4',
+        exercises: [
+          { name: 'Cat-Cow', duration: 50, sides: false, cue: 'Slow and controlled. Really push the floor away on the cat phase, and let your belly drop on the cow.' },
+          { name: 'Thread the Needle', duration: 50, sides: true, cue: 'On all fours, reach one arm under your body and through. Let your shoulder come to the floor. Great thoracic rotation.', sideCue: ['Thread left arm', 'Thread right arm'] },
+          { name: 'Sphinx Pose', duration: 50, sides: false, cue: 'On your stomach, prop up on forearms. Keep hips on the floor. Gentle extension \u2014 don\'t push into pain.' },
+          { name: 'Seated Twist', duration: 45, sides: true, cue: 'Sit tall, cross one leg over, twist toward the top knee. Use your arm to gently deepen. Keep sitting bones grounded.', sideCue: ['Twist left', 'Twist right'] },
+          { name: 'Bird Dog', duration: 50, sides: true, cue: 'On all fours, extend opposite arm and leg. Hold 5 seconds, switch. Keep your core braced and hips level.', sideCue: ['Left arm + right leg', 'Right arm + left leg'] },
+          { name: 'Dead Bug', duration: 50, sides: false, cue: 'On your back, arms up, knees at 90 degrees. Slowly extend opposite arm and leg. Press your lower back into the floor.' },
+          { name: "Child's Pose", duration: 50, sides: false, cue: 'Finish here. Knees wide, breathe deeply. Let your whole spine decompress.' },
+        ]
+      },
+      {
+        id: 'active-recovery',
+        name: 'Active Recovery',
+        description: 'Gentle movement and self-massage cues. Perfect for rest days.',
+        icon: '\uD83C\uDF3F',
+        color: '#84cc16',
+        exercises: [
+          { name: 'Foam Roll Quads', duration: 60, sides: false, cue: 'Face down, roller under your thighs. Roll slowly from hip to just above knee. Pause on tender spots for 10 seconds.' },
+          { name: 'Foam Roll Glutes', duration: 60, sides: false, cue: 'Sit on the roller, cross one ankle over the other knee. Roll the glute on the crossed side. Go slow.' },
+          { name: 'Foam Roll IT Band', duration: 60, sides: false, cue: 'On your side, roller under the outer thigh. Roll from hip to just above knee. This one is spicy \u2014 breathe through it.' },
+          { name: 'Foam Roll Calves', duration: 50, sides: false, cue: 'Sit with roller under your calves. Cross one leg over the other for more pressure. Roll slowly.' },
+          { name: 'Gentle Hip Circles', duration: 50, sides: false, cue: 'On all fours, draw big circles with your knee. Slow and controlled in both directions. Loosen up the joint.' },
+          { name: 'Spinal Waves', duration: 50, sides: false, cue: 'Standing, start by tucking your chin and round down one vertebra at a time. Reverse back up. Slow and fluid.' },
+          { name: 'Deep Squat Breathing', duration: 60, sides: false, cue: 'Sit in a deep squat (use support if needed). Take 6-8 slow deep breaths. Relax into the position.' },
+        ]
+      }
+    ];
+
+    // State
+    let state = {
+      completedDays: [],
+      notes: {},
+      currentSession: null,
+      currentExerciseIndex: 0,
+      currentSideIndex: 0,
+      timeRemaining: 0,
+      isPlaying: false,
+      timerInterval: null,
+      currentMonth: new Date(),
+      audioContext: null
+    };
+
+    // Storage helpers
+    const Storage = {
+      load() {
+        try {
+          const saved = localStorage.getItem('mobilityAppState');
+          if (saved) {
+            const data = JSON.parse(saved);
+            state.completedDays = data.completedDays || [];
+            state.notes = data.notes || {};
+          }
+        } catch (e) {
+          console.log('Storage access failed:', e);
+        }
+      },
+      save() {
+        try {
+          localStorage.setItem('mobilityAppState', JSON.stringify({
+            completedDays: state.completedDays,
+            notes: state.notes
+          }));
+        } catch (e) {
+          console.log('Storage save failed:', e);
+        }
+      }
+    };
+
+    // Audio helpers
+    const SoundEngine = {
+      init() {
+        if (!state.audioContext) {
+          try {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            state.audioContext = new AC();
+          } catch (e) {
+            console.log('AudioContext not available');
+          }
+        }
+      },
+      tick() {
+        if (!state.audioContext) return;
+        const ctx = state.audioContext;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 800;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      },
+      chime() {
+        if (!state.audioContext) return;
+        const ctx = state.audioContext;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.setValueAtTime(1000, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.3);
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      },
+      complete() {
+        if (!state.audioContext) return;
+        const ctx = state.audioContext;
+        const now = ctx.currentTime;
+        [523, 659, 784].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.frequency.value = freq;
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(0.1, now + i * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.3);
+          osc.start(now + i * 0.05);
+          osc.stop(now + i * 0.05 + 0.3);
+        });
+      }
+    };
+
+    // ============================================================
+    // EXERCISE SVG ANIMATION SYSTEM
+    // Each exercise gets a unique anatomically-correct SVG figure
+    // Inspired by Garmin's clean, minimal exercise animations
+    // ============================================================
+    function getExerciseSVG(name, color) {
+      const c = color || '#e8763a';
+      const sw = 5;    // stroke width
+      const hr = 11;   // head radius
+      // Common SVG wrapper: viewBox 200x200, rounded strokes
+      const wrap = (inner) => `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" fill="none">${inner}</g></svg>`;
+      // Head helper
+      const head = (cx, cy) => `<circle cx="${cx}" cy="${cy}" r="${hr}" fill="${c}" stroke="none"/>`;
+      // Subtle breathing animation helper for static holds
+      const breathe = (el, attr, from, to, dur) =>
+        `<animate attributeName="${attr}" values="${from};${to};${from}" dur="${dur || '3s'}" repeatCount="indefinite"/>`;
+
+      const svgs = {
+
+        // ========== STANDING ==========
+
+        'Hip Circles': wrap(`
+          ${head(95,25)}
+          <path d="M95,36 95,88"/>
+          <path d="M95,52 72,68"/>
+          <path d="M95,52 118,68"/>
+          <path d="M95,88 88,128 84,168"/>
+          <g>
+            <path d="M95,88 118,72 122,95"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 95 88;18 95 88;0 95 88;-18 95 88;0 95 88" dur="2s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Standing Quad Stretch': wrap(`
+          ${head(90,28)}
+          <path d="M90,39 92,90"/>
+          <path d="M91,55 65,65"/>
+          <path d="M91,55 115,78 112,95"/>
+          <path d="M92,90 88,130 86,168"/>
+          <g>
+            <path d="M92,90 102,118 105,95"/>
+            ${breathe('', 'opacity', '1', '1', '2s')}
+          </g>
+        `),
+
+        'Wall Calf Stretch': wrap(`
+          <line x1="172" y1="15" x2="172" y2="185" stroke="#333" stroke-width="3"/>
+          ${head(132,42)}
+          <path d="M132,53 122,100"/>
+          <path d="M130,65 162,52"/>
+          <path d="M130,65 165,60"/>
+          <path d="M122,100 135,138 145,168"/>
+          <g>
+            <path d="M122,100 88,140 62,168"/>
+            ${breathe('', 'opacity', '1', '1', '3s')}
+          </g>
+        `),
+
+        'Spinal Waves': wrap(`
+          <g>
+            ${head(100,30)}
+            <path d="M100,41 100,92"/>
+            <path d="M100,55 78,70"/>
+            <path d="M100,55 122,70"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 92;25 100 92;0 100 92" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,92 92,132 88,168"/>
+          <path d="M100,92 108,132 112,168"/>
+        `),
+
+        'Ankle Circles': wrap(`
+          ${head(95,25)}
+          <path d="M95,36 95,88"/>
+          <path d="M95,52 72,65"/>
+          <path d="M95,52 118,65"/>
+          <path d="M95,88 88,128 85,168"/>
+          <path d="M95,88 108,115"/>
+          <g>
+            <circle cx="118" cy="132" r="10" stroke="${c}" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+            <circle cx="118" cy="132" r="3" fill="${c}" stroke="none">
+              <animateMotion path="M10,0 A10,10 0 1,1 -10,0 A10,10 0 1,1 10,0" dur="1.5s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+        `),
+
+        'Leg Swings (Front-Back)': wrap(`
+          ${head(95,25)}
+          <path d="M95,36 95,88"/>
+          <path d="M95,52 72,60"/>
+          <path d="M95,52 118,60"/>
+          <path d="M95,88 88,128 85,168"/>
+          <g>
+            <path d="M95,88 105,128 108,168"/>
+            <animateTransform attributeName="transform" type="rotate" values="30 95 88;-30 95 88;30 95 88" dur="1.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Leg Swings (Side-Side)': wrap(`
+          ${head(100,25)}
+          <path d="M100,36 100,88"/>
+          <path d="M100,52 78,62"/>
+          <path d="M100,52 122,62"/>
+          <path d="M100,88 92,128 88,168"/>
+          <g>
+            <path d="M100,88 115,125 125,165"/>
+            <animateTransform attributeName="transform" type="rotate" values="-25 100 88;25 100 88;-25 100 88" dur="1.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'IT Band Cross-Body': wrap(`
+          ${head(100,28)}
+          <path d="M100,39 100,90"/>
+          <path d="M100,55 75,68"/>
+          <path d="M100,55 125,68"/>
+          <path d="M100,90 95,130 92,168"/>
+          <path d="M100,90 88,125 82,168"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;10,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+            ${head(100,28)}
+            <path d="M100,39 105,90"/>
+          </g>
+        `),
+
+        // ========== LUNGE / KNEELING ==========
+
+        "World's Greatest Stretch": wrap(`
+          ${head(68,30)}
+          <path d="M68,41 82,88"/>
+          <path d="M75,62 82,105"/>
+          <g>
+            <path d="M75,62 55,35"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 75 62;-15 75 62;0 75 62" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M82,88 55,115 40,148"/>
+          <path d="M82,88 118,108 148,138"/>
+        `),
+
+        'Low Lunge Hip Flexor': wrap(`
+          ${head(90,22)}
+          <path d="M90,33 90,80"/>
+          <g>
+            <path d="M90,48 75,30"/>
+            <path d="M90,48 105,30"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-5;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M90,80 60,108 48,140"/>
+          <path d="M90,80 120,112 152,118"/>
+          <circle cx="120" cy="112" r="4" fill="${c}" stroke="none" opacity="0.4"/>
+        `),
+
+        'Kneeling Hip Flexor': wrap(`
+          ${head(90,22)}
+          <path d="M90,33 90,80"/>
+          <g>
+            <path d="M90,48 75,30"/>
+            <path d="M90,48 105,30"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-5;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M90,80 60,108 48,140"/>
+          <path d="M90,80 120,112 152,118"/>
+          <circle cx="120" cy="112" r="4" fill="${c}" stroke="none" opacity="0.4"/>
+        `),
+
+        'Walking Lunges + Twist': wrap(`
+          ${head(85,32)}
+          <path d="M85,43 90,88"/>
+          <path d="M88,58 65,55"/>
+          <g>
+            <path d="M88,58 112,50"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 88 58;-20 88 58;0 88 58;20 88 58;0 88 58" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M90,88 62,115 48,150"/>
+          <path d="M90,88 122,115 140,148"/>
+        `),
+
+        'Half Splits': wrap(`
+          ${head(78,50)}
+          <g>
+            <path d="M78,61 85,98"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 85 98;8 85 98;0 85 98" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M82,75 62,65"/>
+          <path d="M82,75 100,82"/>
+          <path d="M85,98 42,118 30,120"/>
+          <path d="M85,98 118,112 148,115"/>
+          <circle cx="118" cy="112" r="4" fill="${c}" stroke="none" opacity="0.4"/>
+        `),
+
+        // ========== SEATED ==========
+
+        '90/90 Stretch': wrap(`
+          ${head(100,42)}
+          <g>
+            <path d="M100,53 100,105"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 105;10 100 105;0 100 105" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,68 78,80"/>
+          <path d="M100,68 122,80"/>
+          <path d="M100,105 68,108 55,140"/>
+          <path d="M100,105 130,118 142,145"/>
+          <line x1="30" y1="150" x2="170" y2="150" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Butterfly Stretch': wrap(`
+          ${head(100,42)}
+          <path d="M100,53 100,108"/>
+          <path d="M100,68 78,82"/>
+          <path d="M100,68 122,82"/>
+          <g>
+            <path d="M100,108 70,120 65,145"/>
+            <path d="M100,108 130,120 135,145"/>
+            <path d="M80,145 100,155 120,145" stroke="${c}" stroke-width="3"/>
+            <animateTransform attributeName="transform" type="scale" values="1 1;1 0.95;1 1" dur="2s" repeatCount="indefinite" additive="sum"/>
+          </g>
+          <line x1="30" y1="158" x2="170" y2="158" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Seated Forward Fold': wrap(`
+          <g>
+            ${head(72,62)}
+            <path d="M76,72 100,108"/>
+            <path d="M88,88 62,98"/>
+            <path d="M88,88 55,110"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 108;8 100 108;0 100 108" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,108 65,118 38,115"/>
+          <path d="M100,108 135,118 162,115"/>
+          <line x1="25" y1="122" x2="175" y2="122" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Seated Twist': wrap(`
+          ${head(100,42)}
+          <g>
+            <path d="M100,53 100,105"/>
+            <path d="M100,68 78,80"/>
+            <path d="M100,68 122,82"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 105;-12 100 105;0 100 105;12 100 105;0 100 105" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,105 72,115 55,138"/>
+          <path d="M100,105 125,122 120,148"/>
+          <line x1="30" y1="150" x2="170" y2="150" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Deep Squat Hold + Shift': wrap(`
+          ${head(100,38)}
+          <path d="M100,49 100,98"/>
+          <path d="M100,62 80,78 82,95"/>
+          <path d="M100,62 120,78 118,95"/>
+          <g>
+            <path d="M100,98 72,125 65,158"/>
+            <path d="M100,98 128,125 135,158"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0;-8,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <line x1="30" y1="165" x2="170" y2="165" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Deep Squat Breathing': wrap(`
+          ${head(100,38)}
+          <g>
+            <path d="M100,49 100,98"/>
+            <path d="M100,62 80,78 82,95"/>
+            <path d="M100,62 120,78 118,95"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-4;0,0" dur="3.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,98 72,125 65,158"/>
+          <path d="M100,98 128,125 135,158"/>
+          <line x1="30" y1="165" x2="170" y2="165" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Cossack Squats': wrap(`
+          ${head(100,35)}
+          <path d="M100,46 100,92"/>
+          <path d="M100,60 78,72"/>
+          <path d="M100,60 122,72"/>
+          <g>
+            <path d="M100,92 72,120 60,155"/>
+            <path d="M100,92 140,105 165,110"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;-15,0;0,0;15,0;0,0" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <line x1="25" y1="162" x2="175" y2="162" stroke="#333" stroke-width="2"/>
+        `),
+
+        // ========== SUPINE (lying face up, side view) ==========
+
+        'Figure-4 Stretch': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 62,118"/>
+          <path d="M62,135 62,152"/>
+          <g>
+            <path d="M105,135 125,108 145,115"/>
+            <path d="M105,135 135,150 140,135"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 105 135;-5 105 135;0 105 135" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Reclined Pigeon': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 62,118"/>
+          <path d="M62,135 62,152"/>
+          <g>
+            <path d="M105,135 125,108 145,115"/>
+            <path d="M105,135 135,150 140,135"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 105 135;-5 105 135;0 105 135" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Supine Hamstring Stretch': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 72,118"/>
+          <path d="M62,135 72,152"/>
+          <path d="M105,135 135,148 162,152"/>
+          <g>
+            <path d="M105,135 120,90 118,55"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 105 135;8 105 135;0 105 135" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Doorway Hamstring': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          <line x1="165" y1="20" x2="165" y2="180" stroke="#333" stroke-width="3"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 72,120"/>
+          <path d="M62,135 72,150"/>
+          <path d="M105,135 135,148 155,152"/>
+          <path d="M105,135 128,98 140,55"/>
+        `),
+
+        'Glute Bridge Hold': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          ${head(35,148)}
+          <path d="M46,148 68,148"/>
+          <g>
+            <path d="M68,148 90,120 115,118"/>
+            <path d="M68,148 58,132"/>
+            <path d="M68,148 58,160"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-6;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M115,118 135,138 138,155"/>
+          <path d="M115,118 145,130 155,152"/>
+        `),
+
+        'Lying Spinal Twist': wrap(`
+          <line x1="20" y1="135" x2="180" y2="135" stroke="#333" stroke-width="2"/>
+          ${head(45,125)}
+          <path d="M56,125 115,125"/>
+          <path d="M72,125 72,105"/>
+          <path d="M72,125 72,145"/>
+          <g>
+            <path d="M115,125 130,108 125,90"/>
+            <path d="M130,108 140,95"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 115 125;-12 115 125;0 115 125" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Supine Spinal Twist': wrap(`
+          <line x1="20" y1="135" x2="180" y2="135" stroke="#333" stroke-width="2"/>
+          ${head(45,125)}
+          <path d="M56,125 115,125"/>
+          <path d="M72,125 72,105"/>
+          <path d="M72,125 72,145"/>
+          <g>
+            <path d="M115,125 130,108 125,90"/>
+            <path d="M130,108 140,95"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 115 125;-12 115 125;0 115 125" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Dead Bug': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(45,138)}
+          <path d="M56,138 115,138"/>
+          <g>
+            <path d="M72,138 68,110"/>
+            <path d="M115,138 130,110 128,85"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 138;8 100 138;0 100 138" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <path d="M72,138 78,158"/>
+            <path d="M115,138 140,120 155,105"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 138;-8 100 138;0 100 138" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        // ========== PRONE / FLOOR ==========
+
+        'Sphinx Pose': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          ${head(62,82)}
+          <path d="M68,92 110,130"/>
+          <path d="M80,102 72,135 65,155"/>
+          <path d="M80,102 55,128 50,155"/>
+          <path d="M110,130 135,148 155,155"/>
+          <path d="M110,130 150,142 168,152"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-4;0,0" dur="3s" repeatCount="indefinite"/>
+            ${head(62,82)}
+            <path d="M68,92 80,102"/>
+          </g>
+        `),
+
+        'Pigeon Pose': wrap(`
+          <line x1="20" y1="150" x2="180" y2="150" stroke="#333" stroke-width="2"/>
+          ${head(72,62)}
+          <g>
+            <path d="M72,73 85,108"/>
+            <path d="M78,88 58,82"/>
+            <path d="M78,88 95,80"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 85 108;5 85 108;0 85 108" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M85,108 58,128 45,150"/>
+          <path d="M85,108 68,140 65,150"/>
+          <path d="M85,108 128,128 165,135"/>
+        `),
+
+        "Child's Pose": wrap(`
+          <line x1="20" y1="148" x2="180" y2="148" stroke="#333" stroke-width="2"/>
+          ${head(42,118)}
+          <path d="M52,122 95,135"/>
+          <path d="M68,128 50,145 35,148"/>
+          <path d="M68,128 42,148"/>
+          <path d="M95,135 115,148 120,135"/>
+          <path d="M95,135 128,142 130,130"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;-3,0;0,0" dur="3.5s" repeatCount="indefinite"/>
+            ${head(42,118)}
+            <path d="M52,122 68,128"/>
+          </g>
+        `),
+
+        // ========== ALL FOURS / TABLETOP ==========
+
+        'Cat-Cow': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          <g>
+            ${head(52,78)}
+            <path d="M60,85 100,95 140,90"/>
+            <path d="M72,92 65,128 60,158"/>
+            <path d="M72,92 58,125 50,158"/>
+            <path d="M130,92 138,128 142,158"/>
+            <path d="M130,92 148,125 155,158"/>
+            <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <g opacity="0">
+            ${head(52,88)}
+            <path d="M60,92 100,80 140,88"/>
+            <path d="M72,85 65,128 60,158"/>
+            <path d="M72,85 58,125 50,158"/>
+            <path d="M130,86 138,128 142,158"/>
+            <path d="M130,86 148,125 155,158"/>
+            <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Bird Dog': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(48,72)}
+          <path d="M56,80 100,92 140,90"/>
+          <path d="M72,88 65,128 60,158"/>
+          <g>
+            <path d="M72,88 40,60 22,52"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 72 88;-5 72 88;0 72 88" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M130,91 138,128 142,158"/>
+          <g>
+            <path d="M130,91 162,82 178,75"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 130 91;5 130 91;0 130 91" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Thread the Needle': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(55,88)}
+          <path d="M62,95 100,95 140,90"/>
+          <path d="M78,95 72,128 68,158"/>
+          <g>
+            <path d="M78,95 110,108 135,112"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 78 95;25 78 95;0 78 95" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M130,92 138,128 142,158"/>
+          <path d="M130,92 148,125 155,158"/>
+        `),
+
+        'Bear Crawl': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(48,80)}
+          <path d="M55,88 100,98 145,92"/>
+          <path d="M72,95 62,130 55,158"/>
+          <path d="M72,95 52,128 42,158"/>
+          <g>
+            <path d="M132,94 140,128 145,155"/>
+            <path d="M132,94 152,125 160,150"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="1.5s" repeatCount="indefinite"/>
+          </g>
+          <line x1="55" y1="155" x2="55" y2="158" stroke="${c}" stroke-width="3" opacity="0.3"/>
+          <line x1="145" y1="155" x2="145" y2="158" stroke="${c}" stroke-width="3" opacity="0.3"/>
+        `),
+
+        'Frog Stretch': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          ${head(58,78)}
+          <path d="M65,85 105,100"/>
+          <path d="M82,92 68,118 55,148"/>
+          <path d="M82,92 62,120 48,150"/>
+          <g>
+            <path d="M105,100 125,128 140,152"/>
+            <path d="M105,100 135,122 155,148"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;-5,0;0,0" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Gentle Hip Circles': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(52,82)}
+          <path d="M60,90 100,95 140,92"/>
+          <path d="M72,94 65,128 60,158"/>
+          <path d="M72,94 55,125 48,158"/>
+          <path d="M130,93 148,125 155,158"/>
+          <g>
+            <path d="M130,93 145,120 148,148"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 130 93;15 130 93;0 130 93;-15 130 93;0 130 93" dur="2s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        // ========== DYNAMIC ==========
+
+        'Inchworms': wrap(`
+          <line x1="20" y1="162" x2="180" y2="162" stroke="#333" stroke-width="2"/>
+          <g>
+            ${head(62,105)}
+            <path d="M68,112 100,130"/>
+            <path d="M82,120 60,142 48,162"/>
+            <path d="M82,120 55,145 42,162"/>
+            <path d="M100,130 120,148 130,162"/>
+            <path d="M100,130 135,145 145,162"/>
+            <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <g opacity="0">
+            ${head(52,118)}
+            <path d="M58,125 95,138"/>
+            <path d="M75,132 55,148 45,162"/>
+            <path d="M75,132 48,150 38,162"/>
+            <path d="M95,138 108,152 112,162"/>
+            <path d="M95,138 115,150 118,162"/>
+            <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        // ========== FOAM ROLLING ==========
+
+        'Foam Roll Quads': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="108" cy="148" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(48,100)}
+          <path d="M55,108 95,128"/>
+          <path d="M72,118 55,138 42,155"/>
+          <path d="M72,118 50,142 38,155"/>
+          <path d="M95,128 118,138"/>
+          <path d="M95,128 125,142"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;10,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+            <path d="M118,138 145,148 160,155"/>
+            <path d="M125,142 150,150 165,155"/>
+          </g>
+        `),
+
+        'Foam Roll Glutes': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="105" cy="128" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(68,72)}
+          <path d="M72,82 95,118"/>
+          <path d="M82,98 62,95"/>
+          <path d="M82,98 58,105"/>
+          <path d="M95,118 75,140 65,155"/>
+          <path d="M95,118 120,138 130,155"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Foam Roll IT Band': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="100" cy="130" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(52,78)}
+          <path d="M58,88 88,118"/>
+          <path d="M72,102 55,108"/>
+          <path d="M72,102 52,118 42,155"/>
+          <path d="M88,118 115,125"/>
+          <g>
+            <path d="M115,125 145,138 160,155"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;10,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Foam Roll Calves': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="128" cy="140" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(55,82)}
+          <path d="M62,92 85,118"/>
+          <path d="M72,105 52,115 42,155"/>
+          <path d="M72,105 48,118"/>
+          <path d="M85,118 108,132"/>
+          <g>
+            <path d="M108,132 138,138 162,142"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `)
+      };
+
+      return `<div class="exercise-animation">${svgs[name] || wrap(`
+        ${head(100,28)}
+        <path d="M100,39 100,92"/>
+        <path d="M100,55 75,72"/>
+        <path d="M100,55 125,72"/>
+        <path d="M100,92 85,132 80,168"/>
+        <path d="M100,92 115,132 120,168"/>
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="3s" repeatCount="indefinite"/>
+        </g>
+      `)}</div>`;
+    }
+
+    // Get today's session
+    function getTodaySession() {
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      return SESSIONS[dayOfYear % SESSIONS.length];
+    }
+
+    // Calculate stats
+    function getStats() {
+      let dayStreak = 0;
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      for (let i = 0; i < 365; i++) {
+        const checkDate = new Date(today);
+        checkDate.setDate(checkDate.getDate() - i);
+        const checkStr = checkDate.toISOString().split('T')[0];
+        if (state.completedDays.includes(checkStr)) {
+          dayStreak++;
+        } else if (i > 0) {
+          break;
+        }
+      }
+
+      let totalMinutes = 0;
+      state.completedDays.forEach(dayStr => {
+        const dayOfYear = Math.floor((new Date(dayStr) - new Date(new Date(dayStr).getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const session = SESSIONS[dayOfYear % SESSIONS.length];
+        session.exercises.forEach(ex => {
+          totalMinutes += Math.ceil(ex.duration / 60);
+        });
+      });
+
+      return {
+        dayStreak,
+        totalSessions: state.completedDays.length,
+        totalMinutes
+      };
+    }
+
+    // Get last 7 days
+    function getLastSevenDays() {
+      const days = [];
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        date.setHours(0, 0, 0, 0);
+        const dateStr = date.toISOString().split('T')[0];
+        days.push({
+          date: dateStr,
+          completed: state.completedDays.includes(dateStr),
+          dayOfWeek: date.toLocaleDateString('en', { weekday: 'short' }).toUpperCase().charAt(0)
+        });
+      }
+      return days;
+    }
+
+    // Render UI
+    function renderToday() {
+      const stats = getStats();
+      document.getElementById('streakValue').textContent = stats.dayStreak;
+      document.getElementById('sessionsValue').textContent = stats.totalSessions;
+      document.getElementById('minutesValue').textContent = stats.totalMinutes;
+
+      const lastSeven = getLastSevenDays();
+      document.getElementById('weekMiniCal').innerHTML = lastSeven.map((day, idx) => `
+        <div class="day-box ${day.completed ? 'completed' : ''} ${idx === 6 ? 'today' : ''}">
+          ${day.dayOfWeek}
+        </div>
+      `).join('');
+
+      const todaySession = getTodaySession();
+      const totalDuration = todaySession.exercises.reduce((sum, ex) => {
+        const sides = ex.sides ? 2 : 1;
+        return sum + (ex.duration * sides);
+      }, 0);
+      const totalMinutes = Math.ceil(totalDuration / 60);
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayStr = today.toISOString().split('T')[0];
+      const isCompleted = state.completedDays.includes(todayStr);
+
+      document.getElementById('todaySessionCard').innerHTML = `
+        <div class="session-header">
+          <div class="session-icon">${todaySession.icon}</div>
+          <div class="session-title">
+            <div class="session-name">${todaySession.name}</div>
+            <div class="session-description">${todaySession.description}</div>
+          </div>
+        </div>
+        <div class="exercises-preview">
+          ${todaySession.exercises.map(ex => `
+            <div class="exercise-item-preview">
+              <span>${ex.name}</span>
+              <span class="exercise-duration">${ex.duration}s${ex.sides ? ' x 2' : ''}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div style="background: #0f0f0f; border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 16px; font-size: 13px; color: #999;">
+          Total: ${totalMinutes} min
+        </div>
+        <button class="start-button" id="startSessionBtn" ${isCompleted ? 'style="opacity: 0.7;"' : ''}>
+          ${isCompleted ? '\u2713 Completed Today' : 'Start Session'}
+        </button>
+      `;
+
+      const notesArea = document.getElementById('notesTextarea');
+      notesArea.value = state.notes[todayStr] || '';
+      notesArea.addEventListener('input', (e) => {
+        state.notes[todayStr] = e.target.value;
+        Storage.save();
+      });
+
+      document.getElementById('startSessionBtn').addEventListener('click', startSession);
+    }
+
+    function renderCalendar() {
+      const year = state.currentMonth.getFullYear();
+      const month = state.currentMonth.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const daysInMonth = lastDay.getDate();
+      const startingDayOfWeek = firstDay.getDay();
+
+      document.getElementById('monthTitle').textContent = state.currentMonth.toLocaleDateString('en', { month: 'long', year: 'numeric' });
+
+      const monthStats = { sessions: 0, minutes: 0 };
+      const calendarGrid = [];
+
+      for (let i = 0; i < startingDayOfWeek; i++) {
+        calendarGrid.push('<div class="calendar-day other-month"></div>');
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayStr = today.toISOString().split('T')[0];
+
+      for (let i = 1; i <= daysInMonth; i++) {
+        const date = new Date(year, month, i);
+        date.setHours(0, 0, 0, 0);
+        const dateStr = date.toISOString().split('T')[0];
+        const isCompleted = state.completedDays.includes(dateStr);
+        const isToday = dateStr === todayStr;
+
+        if (isCompleted) {
+          const dayOfYear = Math.floor((new Date(dateStr) - new Date(new Date(dateStr).getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+          const session = SESSIONS[dayOfYear % SESSIONS.length];
+          const sessionMinutes = Math.ceil(session.exercises.reduce((sum, ex) => sum + ex.duration * (ex.sides ? 2 : 1), 0) / 60);
+          monthStats.sessions++;
+          monthStats.minutes += sessionMinutes;
+        }
+
+        calendarGrid.push(`
+          <div class="calendar-day ${isCompleted ? 'completed' : ''} ${isToday ? 'today' : ''}">
+            ${i}
+          </div>
+        `);
+      }
+
+      document.getElementById('calendarGrid').innerHTML = calendarGrid.join('');
+      document.getElementById('calSessions').textContent = monthStats.sessions;
+      document.getElementById('calMinutes').textContent = monthStats.minutes;
+    }
+
+    function renderHistory() {
+      const sortedDays = [...state.completedDays].reverse();
+      const historyItems = sortedDays.slice(0, 30).map(dayStr => {
+        const date = new Date(dayStr + 'T00:00:00');
+        const dayOfYear = Math.floor((new Date(dayStr) - new Date(new Date(dayStr).getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const session = SESSIONS[dayOfYear % SESSIONS.length];
+        const note = state.notes[dayStr];
+        return `
+          <div class="history-item">
+            <div class="history-date">${date.toLocaleDateString('en', { month: 'short', day: 'numeric', weekday: 'short' })}</div>
+            <div class="history-session">${session.icon} ${session.name}</div>
+            ${note ? `<div class="history-note">"${note}"</div>` : ''}
+          </div>
+        `;
+      });
+
+      document.getElementById('historyList').innerHTML = historyItems.length > 0
+        ? historyItems.join('')
+        : '<div style="text-align: center; padding: 40px 20px; color: #999;">No completed sessions yet. Start one today!</div>';
+    }
+
+    // Session logic
+    function startSession() {
+      SoundEngine.init();
+      state.currentSession = getTodaySession();
+      state.currentExerciseIndex = 0;
+      state.currentSideIndex = 0;
+      state.isPlaying = true;
+
+      document.getElementById('sessionOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      const firstExercise = state.currentSession.exercises[0];
+      state.timeRemaining = firstExercise.duration;
+
+      renderSessionContent();
+      startTimer();
+      SoundEngine.chime();
+
+      if (navigator.wakeLock) {
+        try {
+          navigator.wakeLock.request('screen');
+        } catch (e) {
+          console.log('Wake lock failed:', e);
+        }
+      }
+    }
+
+    function renderSessionContent() {
+      const exercise = state.currentSession.exercises[state.currentExerciseIndex];
+      const totalExercises = state.currentSession.exercises.reduce((sum, ex) => sum + (ex.sides ? 2 : 1), 0);
+      let currentStep = 1;
+      for (let i = 0; i < state.currentExerciseIndex; i++) {
+        currentStep += state.currentSession.exercises[i].sides ? 2 : 1;
+      }
+      currentStep += state.currentSideIndex;
+
+      const sideCue = exercise.sides ? exercise.sideCue[state.currentSideIndex] : '';
+      const cue = exercise.cue;
+
+      let nextExerciseName = '';
+      if (state.currentSideIndex + 1 < (exercise.sides ? 2 : 1)) {
+        nextExerciseName = exercise.name;
+      } else if (state.currentExerciseIndex < state.currentSession.exercises.length - 1) {
+        nextExerciseName = state.currentSession.exercises[state.currentExerciseIndex + 1].name;
+      }
+
+      const timerColor = state.currentSession.color;
+
+      document.getElementById('sessionProgress').textContent = `${currentStep} / ${totalExercises}`;
+      document.getElementById('sessionContent').innerHTML = `
+        ${getExerciseSVG(exercise.name, timerColor)}
+        <div class="timer-container">
+          <svg class="timer-svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#2a2a2a" stroke-width="2" />
+            <circle id="timerCircle" cx="50" cy="50" r="45" fill="none" stroke="${timerColor}" stroke-width="2" stroke-dasharray="282.74" stroke-dashoffset="282.74" stroke-linecap="round" />
+          </svg>
+          <div class="timer-text" id="timerText">${state.timeRemaining}</div>
+          <div class="timer-label">seconds</div>
+        </div>
+        <div class="exercise-name">${exercise.name}</div>
+        <div class="exercise-side">${sideCue}</div>
+        <div class="exercise-cue">${cue}</div>
+        <div class="exercise-up-next">${nextExerciseName ? 'Up next: ' + nextExerciseName : 'Final stretch!'}</div>
+        <div class="controls">
+          <button class="control-btn" id="prevBtn">&#10094;</button>
+          <button class="control-btn play-btn" id="playBtn">${state.isPlaying ? '\u23F8' : '\u25B6'}</button>
+          <button class="control-btn" id="skipBtn">&#10095;</button>
+        </div>
+      `;
+
+      document.getElementById('prevBtn').addEventListener('click', previousExercise);
+      document.getElementById('playBtn').addEventListener('click', togglePlay);
+      document.getElementById('skipBtn').addEventListener('click', nextExercise);
+    }
+
+    function startTimer() {
+      if (state.timerInterval) clearInterval(state.timerInterval);
+
+      state.timerInterval = setInterval(() => {
+        if (!state.isPlaying) return;
+
+        state.timeRemaining--;
+        document.getElementById('timerText').textContent = state.timeRemaining;
+
+        const exercise = state.currentSession.exercises[state.currentExerciseIndex];
+        const totalDuration = exercise.duration;
+        const circumference = 282.74;
+        const offset = circumference * (1 - state.timeRemaining / totalDuration);
+        const circle = document.getElementById('timerCircle');
+        if (circle) {
+          circle.style.strokeDashoffset = offset;
+        }
+
+        if (state.timeRemaining <= 3 && state.timeRemaining > 0) {
+          SoundEngine.tick();
+        }
+
+        if (state.timeRemaining === 0) {
+          SoundEngine.chime();
+          nextExercise();
+        }
+      }, 1000);
+    }
+
+    function togglePlay() {
+      state.isPlaying = !state.isPlaying;
+      const btn = document.getElementById('playBtn');
+      if (btn) {
+        btn.textContent = state.isPlaying ? '\u23F8' : '\u25B6';
+      }
+      if (state.isPlaying) {
+        startTimer();
+      } else if (state.timerInterval) {
+        clearInterval(state.timerInterval);
+      }
+    }
+
+    function nextExercise() {
+      const exercise = state.currentSession.exercises[state.currentExerciseIndex];
+      if (exercise.sides && state.currentSideIndex + 1 < 2) {
+        state.currentSideIndex++;
+      } else {
+        state.currentExerciseIndex++;
+        state.currentSideIndex = 0;
+
+        if (state.currentExerciseIndex >= state.currentSession.exercises.length) {
+          completeSession();
+          return;
+        }
+      }
+
+      const nextEx = state.currentSession.exercises[state.currentExerciseIndex];
+      state.timeRemaining = nextEx.duration;
+      renderSessionContent();
+      if (state.isPlaying) startTimer();
+    }
+
+    function previousExercise() {
+      if (state.currentSideIndex > 0) {
+        state.currentSideIndex--;
+      } else if (state.currentExerciseIndex > 0) {
+        state.currentExerciseIndex--;
+        const prevEx = state.currentSession.exercises[state.currentExerciseIndex];
+        state.currentSideIndex = prevEx.sides ? 1 : 0;
+      } else {
+        return;
+      }
+
+      const prevEx = state.currentSession.exercises[state.currentExerciseIndex];
+      state.timeRemaining = prevEx.duration;
+      renderSessionContent();
+      if (state.isPlaying) startTimer();
+    }
+
+    function completeSession() {
+      if (state.timerInterval) clearInterval(state.timerInterval);
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayStr = today.toISOString().split('T')[0];
+
+      if (!state.completedDays.includes(todayStr)) {
+        state.completedDays.push(todayStr);
+      }
+      Storage.save();
+
+      SoundEngine.complete();
+
+      const totalDuration = state.currentSession.exercises.reduce((sum, ex) => {
+        return sum + (ex.duration * (ex.sides ? 2 : 1));
+      }, 0);
+      const totalMinutes = Math.ceil(totalDuration / 60);
+
+      document.getElementById('sessionContent').innerHTML = `
+        <div class="session-complete">
+          <div class="complete-emoji">\uD83C\uDF89</div>
+          <div class="complete-title">Awesome Work!</div>
+          <div style="font-size: 14px; color: #999; margin-bottom: 24px;">${state.currentSession.name}</div>
+          <div class="complete-stats">
+            <div class="complete-stat-line">
+              <span class="complete-stat-label">Duration</span>
+              <span class="complete-stat-value">${totalMinutes} min</span>
+            </div>
+            <div class="complete-stat-line">
+              <span class="complete-stat-label">Exercises</span>
+              <span class="complete-stat-value">${state.currentSession.exercises.length}</span>
+            </div>
+            <div class="complete-stat-line">
+              <span class="complete-stat-label">Streak</span>
+              <span class="complete-stat-value">${getStats().dayStreak} days \uD83D\uDD25</span>
+            </div>
+          </div>
+          <button class="complete-btn" id="completeBtn">Done</button>
+        </div>
+      `;
+
+      document.getElementById('completeBtn').addEventListener('click', closeSession);
+    }
+
+    function closeSession() {
+      if (state.timerInterval) clearInterval(state.timerInterval);
+      state.currentSession = null;
+      document.getElementById('sessionOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      renderToday();
+      renderCalendar();
+      renderHistory();
+    }
+
+    // Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+
+      document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+      document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+
+      if (tabId === 'calendarTab') renderCalendar();
+      if (tabId === 'historyTab') renderHistory();
+    }
+
+    document.getElementById('todayNav').addEventListener('click', () => switchTab('todayTab'));
+    document.getElementById('calendarNav').addEventListener('click', () => switchTab('calendarTab'));
+    document.getElementById('historyNav').addEventListener('click', () => switchTab('historyTab'));
+
+    document.getElementById('prevMonthBtn').addEventListener('click', () => {
+      state.currentMonth.setMonth(state.currentMonth.getMonth() - 1);
+      renderCalendar();
+    });
+
+    document.getElementById('nextMonthBtn').addEventListener('click', () => {
+      state.currentMonth.setMonth(state.currentMonth.getMonth() + 1);
+      renderCalendar();
+    });
+
+    document.getElementById('sessionCloseBtn').addEventListener('click', closeSession);
+
+    // Init
+    Storage.load();
+    renderToday();
+  </script>
+</body>
+</html>
