@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-title" content="Mobility">
   <meta name="theme-color" content="#0f0f0f">
   <title>Mobility</title>
-  <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Mobility&quot;,&quot;short_name&quot;:&quot;Mobility&quot;,&quot;start_url&quot;:&quot;./mobility-app.html&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0f0f&quot;,&quot;theme_color&quot;:&quot;#0f0f0f&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f0f0f' width='192' height='192'/%3E%3Ctext x='96' y='120' font-size='120' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;,&quot;purpose&quot;:&quot;any&quot;}]}">
+  <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Mobility&quot;,&quot;short_name&quot;:&quot;Mobility&quot;,&quot;start_url&quot;:&quot;./index.html&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0f0f&quot;,&quot;theme_color&quot;:&quot;#0f0f0f&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f0f0f' width='192' height='192'/%3E%3Ctext x='96' y='120' font-size='120' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;,&quot;purpose&quot;:&quot;any&quot;}]}">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f0f0f' width='192' height='192'/%3E%3Ctext x='96' y='120' font-size='120' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E">
   <apple-touch-icon href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230f0f0f' width='180' height='180'/%3E%3Ctext x='90' y='110' font-size='100' fill='%23e8763a' text-anchor='middle' font-family='system-ui'%3E%F0%9F%A7%98%3C/text%3E%3C/svg%3E">
   <style>
@@ -351,7 +351,7 @@
     }
 
     .calendar-day.completed::after {
-      content: '✓';
+      content: '\2713';
       position: absolute;
       top: 2px;
       right: 4px;
@@ -459,16 +459,26 @@
     }
 
     .exercise-animation {
-      width: 140px;
-      height: 140px;
-      margin-bottom: 24px;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a1a;
+      border-radius: 20px;
+    }
+
+    .exercise-animation svg {
+      width: 100%;
+      height: 100%;
     }
 
     .timer-container {
       position: relative;
-      width: 180px;
-      height: 180px;
-      margin-bottom: 32px;
+      width: 160px;
+      height: 160px;
+      margin-bottom: 24px;
     }
 
     .timer-svg {
@@ -483,17 +493,17 @@
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      font-size: 48px;
+      font-size: 44px;
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
 
     .timer-label {
       position: absolute;
-      bottom: 0;
+      bottom: 2px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 12px;
+      font-size: 11px;
       color: #999;
     }
 
@@ -633,231 +643,6 @@
     .complete-btn:active {
       background: #d65e24;
     }
-
-    /* Animations */
-    @keyframes standing-circle {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(30px) translateY(-30px); }
-      50% { transform: translateX(0) translateY(-40px); }
-      75% { transform: translateX(-30px) translateY(-30px); }
-      100% { transform: translateX(0); }
-    }
-
-    @keyframes lunge-twist {
-      0% { transform: skewY(0); }
-      50% { transform: skewY(-8deg) rotateZ(15deg); }
-      100% { transform: skewY(0); }
-    }
-
-    @keyframes seated-90 {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes low-lunge {
-      0% { transform: translateY(0) scaleY(1); }
-      50% { transform: translateY(-15px) scaleY(0.9); }
-      100% { transform: translateY(0) scaleY(1); }
-    }
-
-    @keyframes butterfly {
-      0% { transform: scaleX(1); }
-      50% { transform: scaleX(1.2); }
-      100% { transform: scaleX(1); }
-    }
-
-    @keyframes pigeon {
-      0% { transform: rotateZ(0); }
-      50% { transform: rotateZ(-15deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes cat-cow {
-      0% { transform: scaleY(1) translateY(0); }
-      50% { transform: scaleY(0.8) translateY(10px); }
-      100% { transform: scaleY(1) translateY(0); }
-    }
-
-    @keyframes figure-4 {
-      0% { transform: rotateZ(0); }
-      50% { transform: rotateZ(20deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes forward-fold {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(20px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes lying-leg-up {
-      0% { transform: translateY(0) rotateZ(0); }
-      50% { transform: translateY(-20px) rotateZ(10deg); }
-      100% { transform: translateY(0) rotateZ(0); }
-    }
-
-    @keyframes bridge {
-      0% { transform: scaleY(1) translateY(0); }
-      50% { transform: scaleY(1.15) translateY(-15px); }
-      100% { transform: scaleY(1) translateY(0); }
-    }
-
-    @keyframes spinal-twist {
-      0% { transform: rotateZ(0); }
-      50% { transform: rotateZ(25deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes leg-swing {
-      0% { transform: rotateZ(0); }
-      25% { transform: rotateZ(35deg); }
-      50% { transform: rotateZ(0); }
-      75% { transform: rotateZ(-35deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes inchworm {
-      0% { transform: scaleX(1) scaleY(0.8); }
-      50% { transform: scaleX(0.7) scaleY(1.2); }
-      100% { transform: scaleX(1) scaleY(0.8); }
-    }
-
-    @keyframes cossack {
-      0% { transform: translateX(0) scaleX(1); }
-      50% { transform: translateX(35px) scaleX(1.1); }
-      100% { transform: translateX(0) scaleX(1); }
-    }
-
-    @keyframes bear-crawl {
-      0% { transform: translateY(0) scaleY(1); }
-      50% { transform: translateY(-10px) scaleY(0.9); }
-      100% { transform: translateY(0) scaleY(1); }
-    }
-
-    @keyframes deep-squat {
-      0% { transform: scaleY(1); }
-      50% { transform: scaleY(0.75); }
-      100% { transform: scaleY(1); }
-    }
-
-    @keyframes child-pose {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(15px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes frog {
-      0% { transform: scaleX(1) scaleY(1); }
-      50% { transform: scaleX(1.2) scaleY(0.9); }
-      100% { transform: scaleX(1) scaleY(1); }
-    }
-
-    @keyframes standing-quad {
-      0% { transform: rotateZ(0); }
-      50% { transform: rotateZ(30deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes wall-calf {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes cross-body {
-      0% { transform: translateX(0) rotateZ(0); }
-      50% { transform: translateX(-30px) rotateZ(15deg); }
-      100% { transform: translateX(0) rotateZ(0); }
-    }
-
-    @keyframes thread-needle {
-      0% { transform: rotateZ(0); }
-      50% { transform: rotateZ(-40deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes sphinx {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes seated-twist {
-      0% { transform: rotateZ(0); }
-      50% { transform: rotateZ(30deg); }
-      100% { transform: rotateZ(0); }
-    }
-
-    @keyframes bird-dog {
-      0% { transform: rotateZ(0) translateY(0); }
-      50% { transform: rotateZ(-15deg) translateY(-10px); }
-      100% { transform: rotateZ(0) translateY(0); }
-    }
-
-    @keyframes dead-bug {
-      0% { transform: scaleY(1); }
-      50% { transform: scaleY(0.85); }
-      100% { transform: scaleY(1); }
-    }
-
-    @keyframes foam-roll {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes spinal-wave {
-      0% { transform: translateY(0) rotateZ(0); }
-      50% { transform: translateY(-20px) rotateZ(10deg); }
-      100% { transform: translateY(0) rotateZ(0); }
-    }
-
-    @keyframes half-splits {
-      0% { transform: rotateZ(0) translateY(0); }
-      50% { transform: rotateZ(-20deg) translateY(-15px); }
-      100% { transform: rotateZ(0) translateY(0); }
-    }
-
-    @keyframes ankle-circle {
-      0% { transform: rotateZ(0); }
-      25% { transform: rotateZ(90deg); }
-      50% { transform: rotateZ(180deg); }
-      75% { transform: rotateZ(270deg); }
-      100% { transform: rotateZ(360deg); }
-    }
-
-    .anim-standing-circle { animation: standing-circle 2s ease-in-out infinite; }
-    .anim-lunge-twist { animation: lunge-twist 2s ease-in-out infinite; }
-    .anim-seated-90 { animation: seated-90 2s ease-in-out infinite; }
-    .anim-low-lunge { animation: low-lunge 2s ease-in-out infinite; }
-    .anim-butterfly { animation: butterfly 2s ease-in-out infinite; }
-    .anim-pigeon { animation: pigeon 2s ease-in-out infinite; }
-    .anim-cat-cow { animation: cat-cow 2s ease-in-out infinite; }
-    .anim-figure-4 { animation: figure-4 2s ease-in-out infinite; }
-    .anim-forward-fold { animation: forward-fold 2s ease-in-out infinite; }
-    .anim-lying-leg-up { animation: lying-leg-up 2s ease-in-out infinite; }
-    .anim-bridge { animation: bridge 2s ease-in-out infinite; }
-    .anim-spinal-twist { animation: spinal-twist 2s ease-in-out infinite; }
-    .anim-leg-swing { animation: leg-swing 2.4s ease-in-out infinite; }
-    .anim-inchworm { animation: inchworm 2s ease-in-out infinite; }
-    .anim-cossack { animation: cossack 2s ease-in-out infinite; }
-    .anim-bear-crawl { animation: bear-crawl 2s ease-in-out infinite; }
-    .anim-deep-squat { animation: deep-squat 2s ease-in-out infinite; }
-    .anim-child-pose { animation: child-pose 2s ease-in-out infinite; }
-    .anim-frog { animation: frog 2s ease-in-out infinite; }
-    .anim-standing-quad { animation: standing-quad 2s ease-in-out infinite; }
-    .anim-wall-calf { animation: wall-calf 2s ease-in-out infinite; }
-    .anim-cross-body { animation: cross-body 2s ease-in-out infinite; }
-    .anim-thread-needle { animation: thread-needle 2s ease-in-out infinite; }
-    .anim-sphinx { animation: sphinx 2s ease-in-out infinite; }
-    .anim-seated-twist { animation: seated-twist 2s ease-in-out infinite; }
-    .anim-bird-dog { animation: bird-dog 2s ease-in-out infinite; }
-    .anim-dead-bug { animation: dead-bug 2s ease-in-out infinite; }
-    .anim-foam-roll { animation: foam-roll 2s ease-in-out infinite; }
-    .anim-spinal-wave { animation: spinal-wave 2s ease-in-out infinite; }
-    .anim-half-splits { animation: half-splits 2s ease-in-out infinite; }
-    .anim-ankle-circle { animation: ankle-circle 3s linear infinite; }
   </style>
 </head>
 <body>
@@ -899,9 +684,9 @@
       <div class="tab" id="calendarTab">
         <div class="calendar-container">
           <div class="calendar-header">
-            <button class="calendar-nav-btn" id="prevMonthBtn">❮</button>
+            <button class="calendar-nav-btn" id="prevMonthBtn">&#10094;</button>
             <div class="calendar-title" id="monthTitle"></div>
-            <button class="calendar-nav-btn" id="nextMonthBtn">❯</button>
+            <button class="calendar-nav-btn" id="nextMonthBtn">&#10095;</button>
           </div>
           <div class="calendar-grid" id="calendarGrid"></div>
           <div class="calendar-stats">
@@ -955,7 +740,7 @@
   <!-- Session Overlay -->
   <div class="session-overlay" id="sessionOverlay">
     <div class="session-header-bar">
-      <button class="session-close-btn" id="sessionCloseBtn">✕</button>
+      <button class="session-close-btn" id="sessionCloseBtn">&#10005;</button>
       <div class="session-progress-text" id="sessionProgress">1 / 10</div>
       <div style="width: 30px;"></div>
     </div>
@@ -970,13 +755,13 @@
       {
         id: 'hip-opener',
         name: 'Hip Opener Flow',
-        description: 'Open up tight hip flexors and improve external rotation — key areas for runners.',
-        icon: '🔓',
+        description: 'Open up tight hip flexors and improve external rotation \u2014 key areas for runners.',
+        icon: '\uD83D\uDD13',
         color: '#e8763a',
         exercises: [
           { name: 'Hip Circles', duration: 40, sides: true, cue: 'Stand on one leg, draw big circles with the other knee. Controlled and smooth.', sideCue: ['Left leg circles', 'Right leg circles'] },
           { name: "World's Greatest Stretch", duration: 50, sides: true, cue: 'Lunge forward, plant opposite hand, rotate torso up. Feel the hip flexor open.', sideCue: ['Left side', 'Right side'] },
-          { name: '90/90 Stretch', duration: 50, sides: true, cue: 'Sit with both knees at 90 degrees. Lean gently into the front hip. Don\'t force it — breathe into the tightness.', sideCue: ['Left hip forward', 'Right hip forward'] },
+          { name: '90/90 Stretch', duration: 50, sides: true, cue: 'Sit with both knees at 90 degrees. Lean gently into the front hip. Don\'t force it \u2014 breathe into the tightness.', sideCue: ['Left hip forward', 'Right hip forward'] },
           { name: 'Low Lunge Hip Flexor', duration: 50, sides: true, cue: 'Back knee down, front foot flat. Squeeze the back glute and shift forward. Arms overhead to deepen.', sideCue: ['Left hip flexor', 'Right hip flexor'] },
           { name: 'Butterfly Stretch', duration: 50, sides: false, cue: 'Soles of feet together, knees out. Sit tall and gently press knees down with elbows. Hinge at the hips.' },
           { name: 'Pigeon Pose', duration: 60, sides: true, cue: 'Front shin across, back leg extended. Stay upright or fold forward. Let gravity do the work.', sideCue: ['Left leg forward', 'Right leg forward'] },
@@ -985,15 +770,15 @@
       {
         id: 'posterior-chain',
         name: 'Posterior Chain Release',
-        description: 'Target hamstrings, glutes, and piriformis — critical for sciatica relief.',
-        icon: '🔗',
+        description: 'Target hamstrings, glutes, and piriformis \u2014 critical for sciatica relief.',
+        icon: '\uD83D\uDD17',
         color: '#6366f1',
         exercises: [
-          { name: 'Cat-Cow', duration: 60, sides: false, cue: 'On all fours, alternate between arching and rounding your back. Sync with breath — inhale arch, exhale round.' },
+          { name: 'Cat-Cow', duration: 60, sides: false, cue: 'On all fours, alternate between arching and rounding your back. Sync with breath \u2014 inhale arch, exhale round.' },
           { name: 'Figure-4 Stretch', duration: 55, sides: true, cue: 'Lie on your back, cross ankle over opposite knee. Pull the bottom leg toward you. Feel the deep glute stretch.', sideCue: ['Left glute', 'Right glute'] },
-          { name: 'Seated Forward Fold', duration: 55, sides: false, cue: 'Legs straight ahead, hinge from the hips — not the lower back. Reach for your shins or feet.' },
+          { name: 'Seated Forward Fold', duration: 55, sides: false, cue: 'Legs straight ahead, hinge from the hips \u2014 not the lower back. Reach for your shins or feet.' },
           { name: 'Supine Hamstring Stretch', duration: 50, sides: true, cue: 'Lie on your back, one leg up. Use hands or a towel behind the thigh. Keep the leg as straight as comfortable.', sideCue: ['Left hamstring', 'Right hamstring'] },
-          { name: 'Glute Bridge Hold', duration: 50, sides: false, cue: 'Feet flat, drive hips up. Squeeze glutes hard at the top. Hold steady — don\'t let hips sag.' },
+          { name: 'Glute Bridge Hold', duration: 50, sides: false, cue: 'Feet flat, drive hips up. Squeeze glutes hard at the top. Hold steady \u2014 don\'t let hips sag.' },
           { name: 'Lying Spinal Twist', duration: 55, sides: true, cue: 'Knees stacked to one side, arms out in a T. Let the weight of your legs pull you into the twist.', sideCue: ['Knees to left', 'Knees to right'] },
         ]
       },
@@ -1001,15 +786,15 @@
         id: 'dynamic-mobility',
         name: 'Dynamic Mobility',
         description: 'Movement-based session to warm up joints through their full range of motion.',
-        icon: '⚡',
+        icon: '\u26A1',
         color: '#f59e0b',
         exercises: [
-          { name: 'Leg Swings (Front-Back)', duration: 30, sides: true, cue: 'Hold something for balance. Swing the leg like a pendulum — relaxed, controlled, increasing range.', sideCue: ['Left leg swings', 'Right leg swings'] },
+          { name: 'Leg Swings (Front-Back)', duration: 30, sides: true, cue: 'Hold something for balance. Swing the leg like a pendulum \u2014 relaxed, controlled, increasing range.', sideCue: ['Left leg swings', 'Right leg swings'] },
           { name: 'Leg Swings (Side-Side)', duration: 30, sides: true, cue: 'Face a wall, swing the leg across your body and out. Keep your hips square.', sideCue: ['Left leg swings', 'Right leg swings'] },
           { name: 'Walking Lunges + Twist', duration: 60, sides: false, cue: 'Step into a deep lunge, rotate your torso toward the front leg. Alternate legs.' },
           { name: 'Inchworms', duration: 60, sides: false, cue: 'From standing, walk hands out to plank. Walk feet back toward hands. Keep legs as straight as possible.' },
           { name: 'Cossack Squats', duration: 60, sides: false, cue: 'Wide stance, shift weight to one side into a deep side squat. Alternate sides. Go as deep as comfortable.' },
-          { name: 'Bear Crawl', duration: 50, sides: false, cue: 'On all fours, knees hovering just off the ground. Crawl forward and backward — opposite hand and foot move together.' },
+          { name: 'Bear Crawl', duration: 50, sides: false, cue: 'On all fours, knees hovering just off the ground. Crawl forward and backward \u2014 opposite hand and foot move together.' },
           { name: 'Deep Squat Hold + Shift', duration: 50, sides: false, cue: 'Sit into a deep squat. Shift weight side to side. Use a doorframe or post for balance if needed.' },
         ]
       },
@@ -1017,7 +802,7 @@
         id: 'deep-stretch',
         name: 'Deep Stretch',
         description: 'Longer holds for deeper tissue release. Great before bed.',
-        icon: '🧘',
+        icon: '\uD83E\uDDD8',
         color: '#8b5cf6',
         exercises: [
           { name: "Child's Pose", duration: 80, sides: false, cue: 'Knees wide, hips back to heels, arms reaching forward. Let your chest melt toward the floor. Breathe deep into your back.' },
@@ -1031,7 +816,7 @@
         id: 'runners-recovery',
         name: "Runner's Recovery",
         description: 'Targeted stretches for the muscles that get tightest from running.',
-        icon: '🏃',
+        icon: '\uD83C\uDFC3',
         color: '#10b981',
         exercises: [
           { name: 'Standing Quad Stretch', duration: 45, sides: true, cue: 'Pull heel to glute, keep knees together. Push your hips slightly forward to deepen the stretch.', sideCue: ['Left quad', 'Right quad'] },
@@ -1046,12 +831,12 @@
         id: 'spinal-health',
         name: 'Spinal Health',
         description: 'Focus on your lower back and thoracic spine. Especially important for sciatica management.',
-        icon: '🦴',
+        icon: '\uD83E\uDDB4',
         color: '#06b6d4',
         exercises: [
           { name: 'Cat-Cow', duration: 50, sides: false, cue: 'Slow and controlled. Really push the floor away on the cat phase, and let your belly drop on the cow.' },
           { name: 'Thread the Needle', duration: 50, sides: true, cue: 'On all fours, reach one arm under your body and through. Let your shoulder come to the floor. Great thoracic rotation.', sideCue: ['Thread left arm', 'Thread right arm'] },
-          { name: 'Sphinx Pose', duration: 50, sides: false, cue: 'On your stomach, prop up on forearms. Keep hips on the floor. Gentle extension — don\'t push into pain.' },
+          { name: 'Sphinx Pose', duration: 50, sides: false, cue: 'On your stomach, prop up on forearms. Keep hips on the floor. Gentle extension \u2014 don\'t push into pain.' },
           { name: 'Seated Twist', duration: 45, sides: true, cue: 'Sit tall, cross one leg over, twist toward the top knee. Use your arm to gently deepen. Keep sitting bones grounded.', sideCue: ['Twist left', 'Twist right'] },
           { name: 'Bird Dog', duration: 50, sides: true, cue: 'On all fours, extend opposite arm and leg. Hold 5 seconds, switch. Keep your core braced and hips level.', sideCue: ['Left arm + right leg', 'Right arm + left leg'] },
           { name: 'Dead Bug', duration: 50, sides: false, cue: 'On your back, arms up, knees at 90 degrees. Slowly extend opposite arm and leg. Press your lower back into the floor.' },
@@ -1062,12 +847,12 @@
         id: 'active-recovery',
         name: 'Active Recovery',
         description: 'Gentle movement and self-massage cues. Perfect for rest days.',
-        icon: '🌿',
+        icon: '\uD83C\uDF3F',
         color: '#84cc16',
         exercises: [
           { name: 'Foam Roll Quads', duration: 60, sides: false, cue: 'Face down, roller under your thighs. Roll slowly from hip to just above knee. Pause on tender spots for 10 seconds.' },
           { name: 'Foam Roll Glutes', duration: 60, sides: false, cue: 'Sit on the roller, cross one ankle over the other knee. Roll the glute on the crossed side. Go slow.' },
-          { name: 'Foam Roll IT Band', duration: 60, sides: false, cue: 'On your side, roller under the outer thigh. Roll from hip to just above knee. This one is spicy — breathe through it.' },
+          { name: 'Foam Roll IT Band', duration: 60, sides: false, cue: 'On your side, roller under the outer thigh. Roll from hip to just above knee. This one is spicy \u2014 breathe through it.' },
           { name: 'Foam Roll Calves', duration: 50, sides: false, cue: 'Sit with roller under your calves. Cross one leg over the other for more pressure. Roll slowly.' },
           { name: 'Gentle Hip Circles', duration: 50, sides: false, cue: 'On all fours, draw big circles with your knee. Slow and controlled in both directions. Loosen up the joint.' },
           { name: 'Spinal Waves', duration: 50, sides: false, cue: 'Standing, start by tucking your chin and round down one vertebra at a time. Reverse back up. Slow and fluid.' },
@@ -1117,12 +902,12 @@
     };
 
     // Audio helpers
-    const Audio = {
+    const SoundEngine = {
       init() {
         if (!state.audioContext) {
           try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            state.audioContext = new AudioContext();
+            const AC = window.AudioContext || window.webkitAudioContext;
+            state.audioContext = new AC();
           } catch (e) {
             console.log('AudioContext not available');
           }
@@ -1163,8 +948,7 @@
         if (!state.audioContext) return;
         const ctx = state.audioContext;
         const now = ctx.currentTime;
-        const notes = [523, 659, 784];
-        notes.forEach((freq, i) => {
+        [523, 659, 784].forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.connect(gain);
@@ -1179,67 +963,633 @@
       }
     };
 
-    // Animation SVG generators
-    function createStickFigure(animClass) {
-      return `
-        <svg class="exercise-animation anim-${animClass}" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="70" cy="25" r="12" fill="${state.currentSession?.color || '#e8763a'}" />
-          <line x1="70" y1="37" x2="70" y2="70" stroke="${state.currentSession?.color || '#e8763a'}" stroke-width="3" stroke-linecap="round" />
-          <line x1="70" y1="45" x2="45" y2="60" stroke="${state.currentSession?.color || '#e8763a'}" stroke-width="3" stroke-linecap="round" />
-          <line x1="70" y1="45" x2="95" y2="60" stroke="${state.currentSession?.color || '#e8763a'}" stroke-width="3" stroke-linecap="round" />
-          <line x1="70" y1="70" x2="50" y2="110" stroke="${state.currentSession?.color || '#e8763a'}" stroke-width="3" stroke-linecap="round" />
-          <line x1="70" y1="70" x2="90" y2="110" stroke="${state.currentSession?.color || '#e8763a'}" stroke-width="3" stroke-linecap="round" />
-        </svg>
-      `;
-    }
+    // ============================================================
+    // EXERCISE SVG ANIMATION SYSTEM
+    // Each exercise gets a unique anatomically-correct SVG figure
+    // Inspired by Garmin's clean, minimal exercise animations
+    // ============================================================
+    function getExerciseSVG(name, color) {
+      const c = color || '#e8763a';
+      const sw = 5;    // stroke width
+      const hr = 11;   // head radius
+      // Common SVG wrapper: viewBox 200x200, rounded strokes
+      const wrap = (inner) => `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" fill="none">${inner}</g></svg>`;
+      // Head helper
+      const head = (cx, cy) => `<circle cx="${cx}" cy="${cy}" r="${hr}" fill="${c}" stroke="none"/>`;
+      // Subtle breathing animation helper for static holds
+      const breathe = (el, attr, from, to, dur) =>
+        `<animate attributeName="${attr}" values="${from};${to};${from}" dur="${dur || '3s'}" repeatCount="indefinite"/>`;
 
-    // Get animation class for exercise
-    function getAnimationClass(exerciseName) {
-      const animations = {
-        'Hip Circles': 'standing-circle',
-        "World's Greatest Stretch": 'lunge-twist',
-        '90/90 Stretch': 'seated-90',
-        'Low Lunge Hip Flexor': 'low-lunge',
-        'Butterfly Stretch': 'butterfly',
-        'Pigeon Pose': 'pigeon',
-        'Reclined Pigeon': 'pigeon',
-        'Cat-Cow': 'cat-cow',
-        'Figure-4 Stretch': 'figure-4',
-        'Seated Forward Fold': 'forward-fold',
-        'Supine Hamstring Stretch': 'lying-leg-up',
-        'Doorway Hamstring': 'lying-leg-up',
-        'Glute Bridge Hold': 'bridge',
-        'Lying Spinal Twist': 'spinal-twist',
-        'Supine Spinal Twist': 'spinal-twist',
-        'Leg Swings (Front-Back)': 'leg-swing',
-        'Leg Swings (Side-Side)': 'leg-swing',
-        'Walking Lunges + Twist': 'lunge-twist',
-        'Inchworms': 'inchworm',
-        'Cossack Squats': 'cossack',
-        'Bear Crawl': 'bear-crawl',
-        'Deep Squat Hold + Shift': 'deep-squat',
-        "Child's Pose": 'child-pose',
-        'Frog Stretch': 'frog',
-        'Half Splits': 'half-splits',
-        'Standing Quad Stretch': 'standing-quad',
-        'Wall Calf Stretch': 'wall-calf',
-        'IT Band Cross-Body': 'cross-body',
-        'Kneeling Hip Flexor': 'low-lunge',
-        'Thread the Needle': 'thread-needle',
-        'Sphinx Pose': 'sphinx',
-        'Seated Twist': 'seated-twist',
-        'Bird Dog': 'bird-dog',
-        'Dead Bug': 'dead-bug',
-        'Foam Roll Quads': 'foam-roll',
-        'Foam Roll Glutes': 'foam-roll',
-        'Foam Roll IT Band': 'foam-roll',
-        'Foam Roll Calves': 'foam-roll',
-        'Gentle Hip Circles': 'standing-circle',
-        'Spinal Waves': 'spinal-wave',
-        'Deep Squat Breathing': 'deep-squat',
-        'Ankle Circles': 'ankle-circle'
+      const svgs = {
+
+        // ========== STANDING ==========
+
+        'Hip Circles': wrap(`
+          ${head(95,25)}
+          <path d="M95,36 95,88"/>
+          <path d="M95,52 72,68"/>
+          <path d="M95,52 118,68"/>
+          <path d="M95,88 88,128 84,168"/>
+          <g>
+            <path d="M95,88 118,72 122,95"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 95 88;18 95 88;0 95 88;-18 95 88;0 95 88" dur="2s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Standing Quad Stretch': wrap(`
+          ${head(90,28)}
+          <path d="M90,39 92,90"/>
+          <path d="M91,55 65,65"/>
+          <path d="M91,55 115,78 112,95"/>
+          <path d="M92,90 88,130 86,168"/>
+          <g>
+            <path d="M92,90 102,118 105,95"/>
+            ${breathe('', 'opacity', '1', '1', '2s')}
+          </g>
+        `),
+
+        'Wall Calf Stretch': wrap(`
+          <line x1="172" y1="15" x2="172" y2="185" stroke="#333" stroke-width="3"/>
+          ${head(132,42)}
+          <path d="M132,53 122,100"/>
+          <path d="M130,65 162,52"/>
+          <path d="M130,65 165,60"/>
+          <path d="M122,100 135,138 145,168"/>
+          <g>
+            <path d="M122,100 88,140 62,168"/>
+            ${breathe('', 'opacity', '1', '1', '3s')}
+          </g>
+        `),
+
+        'Spinal Waves': wrap(`
+          <g>
+            ${head(100,30)}
+            <path d="M100,41 100,92"/>
+            <path d="M100,55 78,70"/>
+            <path d="M100,55 122,70"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 92;25 100 92;0 100 92" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,92 92,132 88,168"/>
+          <path d="M100,92 108,132 112,168"/>
+        `),
+
+        'Ankle Circles': wrap(`
+          ${head(95,25)}
+          <path d="M95,36 95,88"/>
+          <path d="M95,52 72,65"/>
+          <path d="M95,52 118,65"/>
+          <path d="M95,88 88,128 85,168"/>
+          <path d="M95,88 108,115"/>
+          <g>
+            <circle cx="118" cy="132" r="10" stroke="${c}" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+            <circle cx="118" cy="132" r="3" fill="${c}" stroke="none">
+              <animateMotion path="M10,0 A10,10 0 1,1 -10,0 A10,10 0 1,1 10,0" dur="1.5s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+        `),
+
+        'Leg Swings (Front-Back)': wrap(`
+          ${head(95,25)}
+          <path d="M95,36 95,88"/>
+          <path d="M95,52 72,60"/>
+          <path d="M95,52 118,60"/>
+          <path d="M95,88 88,128 85,168"/>
+          <g>
+            <path d="M95,88 105,128 108,168"/>
+            <animateTransform attributeName="transform" type="rotate" values="30 95 88;-30 95 88;30 95 88" dur="1.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Leg Swings (Side-Side)': wrap(`
+          ${head(100,25)}
+          <path d="M100,36 100,88"/>
+          <path d="M100,52 78,62"/>
+          <path d="M100,52 122,62"/>
+          <path d="M100,88 92,128 88,168"/>
+          <g>
+            <path d="M100,88 115,125 125,165"/>
+            <animateTransform attributeName="transform" type="rotate" values="-25 100 88;25 100 88;-25 100 88" dur="1.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'IT Band Cross-Body': wrap(`
+          ${head(100,28)}
+          <path d="M100,39 100,90"/>
+          <path d="M100,55 75,68"/>
+          <path d="M100,55 125,68"/>
+          <path d="M100,90 95,130 92,168"/>
+          <path d="M100,90 88,125 82,168"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;10,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+            ${head(100,28)}
+            <path d="M100,39 105,90"/>
+          </g>
+        `),
+
+        // ========== LUNGE / KNEELING ==========
+
+        "World's Greatest Stretch": wrap(`
+          ${head(68,30)}
+          <path d="M68,41 82,88"/>
+          <path d="M75,62 82,105"/>
+          <g>
+            <path d="M75,62 55,35"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 75 62;-15 75 62;0 75 62" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M82,88 55,115 40,148"/>
+          <path d="M82,88 118,108 148,138"/>
+        `),
+
+        'Low Lunge Hip Flexor': wrap(`
+          ${head(90,22)}
+          <path d="M90,33 90,80"/>
+          <g>
+            <path d="M90,48 75,30"/>
+            <path d="M90,48 105,30"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-5;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M90,80 60,108 48,140"/>
+          <path d="M90,80 120,112 152,118"/>
+          <circle cx="120" cy="112" r="4" fill="${c}" stroke="none" opacity="0.4"/>
+        `),
+
+        'Kneeling Hip Flexor': wrap(`
+          ${head(90,22)}
+          <path d="M90,33 90,80"/>
+          <g>
+            <path d="M90,48 75,30"/>
+            <path d="M90,48 105,30"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-5;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M90,80 60,108 48,140"/>
+          <path d="M90,80 120,112 152,118"/>
+          <circle cx="120" cy="112" r="4" fill="${c}" stroke="none" opacity="0.4"/>
+        `),
+
+        'Walking Lunges + Twist': wrap(`
+          ${head(85,32)}
+          <path d="M85,43 90,88"/>
+          <path d="M88,58 65,55"/>
+          <g>
+            <path d="M88,58 112,50"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 88 58;-20 88 58;0 88 58;20 88 58;0 88 58" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M90,88 62,115 48,150"/>
+          <path d="M90,88 122,115 140,148"/>
+        `),
+
+        'Half Splits': wrap(`
+          ${head(78,50)}
+          <g>
+            <path d="M78,61 85,98"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 85 98;8 85 98;0 85 98" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M82,75 62,65"/>
+          <path d="M82,75 100,82"/>
+          <path d="M85,98 42,118 30,120"/>
+          <path d="M85,98 118,112 148,115"/>
+          <circle cx="118" cy="112" r="4" fill="${c}" stroke="none" opacity="0.4"/>
+        `),
+
+        // ========== SEATED ==========
+
+        '90/90 Stretch': wrap(`
+          ${head(100,42)}
+          <g>
+            <path d="M100,53 100,105"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 105;10 100 105;0 100 105" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,68 78,80"/>
+          <path d="M100,68 122,80"/>
+          <path d="M100,105 68,108 55,140"/>
+          <path d="M100,105 130,118 142,145"/>
+          <line x1="30" y1="150" x2="170" y2="150" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Butterfly Stretch': wrap(`
+          ${head(100,42)}
+          <path d="M100,53 100,108"/>
+          <path d="M100,68 78,82"/>
+          <path d="M100,68 122,82"/>
+          <g>
+            <path d="M100,108 70,120 65,145"/>
+            <path d="M100,108 130,120 135,145"/>
+            <path d="M80,145 100,155 120,145" stroke="${c}" stroke-width="3"/>
+            <animateTransform attributeName="transform" type="scale" values="1 1;1 0.95;1 1" dur="2s" repeatCount="indefinite" additive="sum"/>
+          </g>
+          <line x1="30" y1="158" x2="170" y2="158" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Seated Forward Fold': wrap(`
+          <g>
+            ${head(72,62)}
+            <path d="M76,72 100,108"/>
+            <path d="M88,88 62,98"/>
+            <path d="M88,88 55,110"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 108;8 100 108;0 100 108" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,108 65,118 38,115"/>
+          <path d="M100,108 135,118 162,115"/>
+          <line x1="25" y1="122" x2="175" y2="122" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Seated Twist': wrap(`
+          ${head(100,42)}
+          <g>
+            <path d="M100,53 100,105"/>
+            <path d="M100,68 78,80"/>
+            <path d="M100,68 122,82"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 105;-12 100 105;0 100 105;12 100 105;0 100 105" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,105 72,115 55,138"/>
+          <path d="M100,105 125,122 120,148"/>
+          <line x1="30" y1="150" x2="170" y2="150" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Deep Squat Hold + Shift': wrap(`
+          ${head(100,38)}
+          <path d="M100,49 100,98"/>
+          <path d="M100,62 80,78 82,95"/>
+          <path d="M100,62 120,78 118,95"/>
+          <g>
+            <path d="M100,98 72,125 65,158"/>
+            <path d="M100,98 128,125 135,158"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0;-8,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <line x1="30" y1="165" x2="170" y2="165" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Deep Squat Breathing': wrap(`
+          ${head(100,38)}
+          <g>
+            <path d="M100,49 100,98"/>
+            <path d="M100,62 80,78 82,95"/>
+            <path d="M100,62 120,78 118,95"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-4;0,0" dur="3.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M100,98 72,125 65,158"/>
+          <path d="M100,98 128,125 135,158"/>
+          <line x1="30" y1="165" x2="170" y2="165" stroke="#333" stroke-width="2"/>
+        `),
+
+        'Cossack Squats': wrap(`
+          ${head(100,35)}
+          <path d="M100,46 100,92"/>
+          <path d="M100,60 78,72"/>
+          <path d="M100,60 122,72"/>
+          <g>
+            <path d="M100,92 72,120 60,155"/>
+            <path d="M100,92 140,105 165,110"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;-15,0;0,0;15,0;0,0" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <line x1="25" y1="162" x2="175" y2="162" stroke="#333" stroke-width="2"/>
+        `),
+
+        // ========== SUPINE (lying face up, side view) ==========
+
+        'Figure-4 Stretch': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 62,118"/>
+          <path d="M62,135 62,152"/>
+          <g>
+            <path d="M105,135 125,108 145,115"/>
+            <path d="M105,135 135,150 140,135"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 105 135;-5 105 135;0 105 135" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Reclined Pigeon': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 62,118"/>
+          <path d="M62,135 62,152"/>
+          <g>
+            <path d="M105,135 125,108 145,115"/>
+            <path d="M105,135 135,150 140,135"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 105 135;-5 105 135;0 105 135" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Supine Hamstring Stretch': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 72,118"/>
+          <path d="M62,135 72,152"/>
+          <path d="M105,135 135,148 162,152"/>
+          <g>
+            <path d="M105,135 120,90 118,55"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 105 135;8 105 135;0 105 135" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Doorway Hamstring': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          <line x1="165" y1="20" x2="165" y2="180" stroke="#333" stroke-width="3"/>
+          ${head(35,135)}
+          <path d="M46,135 105,135"/>
+          <path d="M62,135 72,120"/>
+          <path d="M62,135 72,150"/>
+          <path d="M105,135 135,148 155,152"/>
+          <path d="M105,135 128,98 140,55"/>
+        `),
+
+        'Glute Bridge Hold': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          ${head(35,148)}
+          <path d="M46,148 68,148"/>
+          <g>
+            <path d="M68,148 90,120 115,118"/>
+            <path d="M68,148 58,132"/>
+            <path d="M68,148 58,160"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-6;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M115,118 135,138 138,155"/>
+          <path d="M115,118 145,130 155,152"/>
+        `),
+
+        'Lying Spinal Twist': wrap(`
+          <line x1="20" y1="135" x2="180" y2="135" stroke="#333" stroke-width="2"/>
+          ${head(45,125)}
+          <path d="M56,125 115,125"/>
+          <path d="M72,125 72,105"/>
+          <path d="M72,125 72,145"/>
+          <g>
+            <path d="M115,125 130,108 125,90"/>
+            <path d="M130,108 140,95"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 115 125;-12 115 125;0 115 125" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Supine Spinal Twist': wrap(`
+          <line x1="20" y1="135" x2="180" y2="135" stroke="#333" stroke-width="2"/>
+          ${head(45,125)}
+          <path d="M56,125 115,125"/>
+          <path d="M72,125 72,105"/>
+          <path d="M72,125 72,145"/>
+          <g>
+            <path d="M115,125 130,108 125,90"/>
+            <path d="M130,108 140,95"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 115 125;-12 115 125;0 115 125" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Dead Bug': wrap(`
+          <line x1="20" y1="145" x2="180" y2="145" stroke="#333" stroke-width="2"/>
+          ${head(45,138)}
+          <path d="M56,138 115,138"/>
+          <g>
+            <path d="M72,138 68,110"/>
+            <path d="M115,138 130,110 128,85"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 138;8 100 138;0 100 138" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <path d="M72,138 78,158"/>
+            <path d="M115,138 140,120 155,105"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 100 138;-8 100 138;0 100 138" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        // ========== PRONE / FLOOR ==========
+
+        'Sphinx Pose': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          ${head(62,82)}
+          <path d="M68,92 110,130"/>
+          <path d="M80,102 72,135 65,155"/>
+          <path d="M80,102 55,128 50,155"/>
+          <path d="M110,130 135,148 155,155"/>
+          <path d="M110,130 150,142 168,152"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-4;0,0" dur="3s" repeatCount="indefinite"/>
+            ${head(62,82)}
+            <path d="M68,92 80,102"/>
+          </g>
+        `),
+
+        'Pigeon Pose': wrap(`
+          <line x1="20" y1="150" x2="180" y2="150" stroke="#333" stroke-width="2"/>
+          ${head(72,62)}
+          <g>
+            <path d="M72,73 85,108"/>
+            <path d="M78,88 58,82"/>
+            <path d="M78,88 95,80"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 85 108;5 85 108;0 85 108" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M85,108 58,128 45,150"/>
+          <path d="M85,108 68,140 65,150"/>
+          <path d="M85,108 128,128 165,135"/>
+        `),
+
+        "Child's Pose": wrap(`
+          <line x1="20" y1="148" x2="180" y2="148" stroke="#333" stroke-width="2"/>
+          ${head(42,118)}
+          <path d="M52,122 95,135"/>
+          <path d="M68,128 50,145 35,148"/>
+          <path d="M68,128 42,148"/>
+          <path d="M95,135 115,148 120,135"/>
+          <path d="M95,135 128,142 130,130"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;-3,0;0,0" dur="3.5s" repeatCount="indefinite"/>
+            ${head(42,118)}
+            <path d="M52,122 68,128"/>
+          </g>
+        `),
+
+        // ========== ALL FOURS / TABLETOP ==========
+
+        'Cat-Cow': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          <g>
+            ${head(52,78)}
+            <path d="M60,85 100,95 140,90"/>
+            <path d="M72,92 65,128 60,158"/>
+            <path d="M72,92 58,125 50,158"/>
+            <path d="M130,92 138,128 142,158"/>
+            <path d="M130,92 148,125 155,158"/>
+            <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <g opacity="0">
+            ${head(52,88)}
+            <path d="M60,92 100,80 140,88"/>
+            <path d="M72,85 65,128 60,158"/>
+            <path d="M72,85 58,125 50,158"/>
+            <path d="M130,86 138,128 142,158"/>
+            <path d="M130,86 148,125 155,158"/>
+            <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Bird Dog': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(48,72)}
+          <path d="M56,80 100,92 140,90"/>
+          <path d="M72,88 65,128 60,158"/>
+          <g>
+            <path d="M72,88 40,60 22,52"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 72 88;-5 72 88;0 72 88" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+          <path d="M130,91 138,128 142,158"/>
+          <g>
+            <path d="M130,91 162,82 178,75"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 130 91;5 130 91;0 130 91" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Thread the Needle': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(55,88)}
+          <path d="M62,95 100,95 140,90"/>
+          <path d="M78,95 72,128 68,158"/>
+          <g>
+            <path d="M78,95 110,108 135,112"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 78 95;25 78 95;0 78 95" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <path d="M130,92 138,128 142,158"/>
+          <path d="M130,92 148,125 155,158"/>
+        `),
+
+        'Bear Crawl': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(48,80)}
+          <path d="M55,88 100,98 145,92"/>
+          <path d="M72,95 62,130 55,158"/>
+          <path d="M72,95 52,128 42,158"/>
+          <g>
+            <path d="M132,94 140,128 145,155"/>
+            <path d="M132,94 152,125 160,150"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="1.5s" repeatCount="indefinite"/>
+          </g>
+          <line x1="55" y1="155" x2="55" y2="158" stroke="${c}" stroke-width="3" opacity="0.3"/>
+          <line x1="145" y1="155" x2="145" y2="158" stroke="${c}" stroke-width="3" opacity="0.3"/>
+        `),
+
+        'Frog Stretch': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          ${head(58,78)}
+          <path d="M65,85 105,100"/>
+          <path d="M82,92 68,118 55,148"/>
+          <path d="M82,92 62,120 48,150"/>
+          <g>
+            <path d="M105,100 125,128 140,152"/>
+            <path d="M105,100 135,122 155,148"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;-5,0;0,0" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Gentle Hip Circles': wrap(`
+          <line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="2"/>
+          ${head(52,82)}
+          <path d="M60,90 100,95 140,92"/>
+          <path d="M72,94 65,128 60,158"/>
+          <path d="M72,94 55,125 48,158"/>
+          <path d="M130,93 148,125 155,158"/>
+          <g>
+            <path d="M130,93 145,120 148,148"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 130 93;15 130 93;0 130 93;-15 130 93;0 130 93" dur="2s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        // ========== DYNAMIC ==========
+
+        'Inchworms': wrap(`
+          <line x1="20" y1="162" x2="180" y2="162" stroke="#333" stroke-width="2"/>
+          <g>
+            ${head(62,105)}
+            <path d="M68,112 100,130"/>
+            <path d="M82,120 60,142 48,162"/>
+            <path d="M82,120 55,145 42,162"/>
+            <path d="M100,130 120,148 130,162"/>
+            <path d="M100,130 135,145 145,162"/>
+            <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <g opacity="0">
+            ${head(52,118)}
+            <path d="M58,125 95,138"/>
+            <path d="M75,132 55,148 45,162"/>
+            <path d="M75,132 48,150 38,162"/>
+            <path d="M95,138 108,152 112,162"/>
+            <path d="M95,138 115,150 118,162"/>
+            <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        // ========== FOAM ROLLING ==========
+
+        'Foam Roll Quads': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="108" cy="148" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(48,100)}
+          <path d="M55,108 95,128"/>
+          <path d="M72,118 55,138 42,155"/>
+          <path d="M72,118 50,142 38,155"/>
+          <path d="M95,128 118,138"/>
+          <path d="M95,128 125,142"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;10,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+            <path d="M118,138 145,148 160,155"/>
+            <path d="M125,142 150,150 165,155"/>
+          </g>
+        `),
+
+        'Foam Roll Glutes': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="105" cy="128" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(68,72)}
+          <path d="M72,82 95,118"/>
+          <path d="M82,98 62,95"/>
+          <path d="M82,98 58,105"/>
+          <path d="M95,118 75,140 65,155"/>
+          <path d="M95,118 120,138 130,155"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Foam Roll IT Band': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="100" cy="130" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(52,78)}
+          <path d="M58,88 88,118"/>
+          <path d="M72,102 55,108"/>
+          <path d="M72,102 52,118 42,155"/>
+          <path d="M88,118 115,125"/>
+          <g>
+            <path d="M115,125 145,138 160,155"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;10,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `),
+
+        'Foam Roll Calves': wrap(`
+          <line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="2"/>
+          <ellipse cx="128" cy="140" rx="18" ry="10" fill="#333" stroke="${c}" stroke-width="2"/>
+          ${head(55,82)}
+          <path d="M62,92 85,118"/>
+          <path d="M72,105 52,115 42,155"/>
+          <path d="M72,105 48,118"/>
+          <path d="M85,118 108,132"/>
+          <g>
+            <path d="M108,132 138,138 162,142"/>
+            <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0" dur="2.5s" repeatCount="indefinite"/>
+          </g>
+        `)
       };
-      return animations[exerciseName] || 'standing-circle';
+
+      return `<div class="exercise-animation">${svgs[name] || wrap(`
+        ${head(100,28)}
+        <path d="M100,39 100,92"/>
+        <path d="M100,55 75,72"/>
+        <path d="M100,55 125,72"/>
+        <path d="M100,92 85,132 80,168"/>
+        <path d="M100,92 115,132 120,168"/>
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="3s" repeatCount="indefinite"/>
+        </g>
+      `)}</div>`;
     }
 
     // Get today's session
@@ -1253,7 +1603,6 @@
       let dayStreak = 0;
       let today = new Date();
       today.setHours(0, 0, 0, 0);
-      const todayStr = today.toISOString().split('T')[0];
 
       for (let i = 0; i < 365; i++) {
         const checkDate = new Date(today);
@@ -1345,7 +1694,7 @@
           Total: ${totalMinutes} min
         </div>
         <button class="start-button" id="startSessionBtn" ${isCompleted ? 'style="opacity: 0.7;"' : ''}>
-          ${isCompleted ? '✓ Completed Today' : 'Start Session'}
+          ${isCompleted ? '\u2713 Completed Today' : 'Start Session'}
         </button>
       `;
 
@@ -1373,7 +1722,7 @@
       const calendarGrid = [];
 
       for (let i = 0; i < startingDayOfWeek; i++) {
-        calendarGrid.push(`<div class="calendar-day other-month"></div>`);
+        calendarGrid.push('<div class="calendar-day other-month"></div>');
       }
 
       const today = new Date();
@@ -1430,7 +1779,7 @@
 
     // Session logic
     function startSession() {
-      Audio.init();
+      SoundEngine.init();
       state.currentSession = getTodaySession();
       state.currentExerciseIndex = 0;
       state.currentSideIndex = 0;
@@ -1444,7 +1793,7 @@
 
       renderSessionContent();
       startTimer();
-      Audio.chime();
+      SoundEngine.chime();
 
       if (navigator.wakeLock) {
         try {
@@ -1464,22 +1813,21 @@
       }
       currentStep += state.currentSideIndex;
 
-      const animClass = getAnimationClass(exercise.name);
       const sideCue = exercise.sides ? exercise.sideCue[state.currentSideIndex] : '';
       const cue = exercise.cue;
 
       let nextExerciseName = '';
-      if (state.currentExerciseIndex < state.currentSession.exercises.length - 1) {
-        nextExerciseName = state.currentSession.exercises[state.currentExerciseIndex + 1].name;
-      } else if (state.currentSideIndex + 1 < (exercise.sides ? 2 : 1)) {
+      if (state.currentSideIndex + 1 < (exercise.sides ? 2 : 1)) {
         nextExerciseName = exercise.name;
+      } else if (state.currentExerciseIndex < state.currentSession.exercises.length - 1) {
+        nextExerciseName = state.currentSession.exercises[state.currentExerciseIndex + 1].name;
       }
 
       const timerColor = state.currentSession.color;
 
       document.getElementById('sessionProgress').textContent = `${currentStep} / ${totalExercises}`;
       document.getElementById('sessionContent').innerHTML = `
-        ${createStickFigure(animClass)}
+        ${getExerciseSVG(exercise.name, timerColor)}
         <div class="timer-container">
           <svg class="timer-svg" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="none" stroke="#2a2a2a" stroke-width="2" />
@@ -1493,9 +1841,9 @@
         <div class="exercise-cue">${cue}</div>
         <div class="exercise-up-next">${nextExerciseName ? 'Up next: ' + nextExerciseName : 'Final stretch!'}</div>
         <div class="controls">
-          <button class="control-btn" id="prevBtn">❮</button>
-          <button class="control-btn play-btn" id="playBtn">${state.isPlaying ? '⏸' : '▶'}</button>
-          <button class="control-btn" id="skipBtn">❯</button>
+          <button class="control-btn" id="prevBtn">&#10094;</button>
+          <button class="control-btn play-btn" id="playBtn">${state.isPlaying ? '\u23F8' : '\u25B6'}</button>
+          <button class="control-btn" id="skipBtn">&#10095;</button>
         </div>
       `;
 
@@ -1523,11 +1871,11 @@
         }
 
         if (state.timeRemaining <= 3 && state.timeRemaining > 0) {
-          Audio.tick();
+          SoundEngine.tick();
         }
 
         if (state.timeRemaining === 0) {
-          Audio.chime();
+          SoundEngine.chime();
           nextExercise();
         }
       }, 1000);
@@ -1537,7 +1885,7 @@
       state.isPlaying = !state.isPlaying;
       const btn = document.getElementById('playBtn');
       if (btn) {
-        btn.textContent = state.isPlaying ? '⏸' : '▶';
+        btn.textContent = state.isPlaying ? '\u23F8' : '\u25B6';
       }
       if (state.isPlaying) {
         startTimer();
@@ -1595,7 +1943,7 @@
       }
       Storage.save();
 
-      Audio.complete();
+      SoundEngine.complete();
 
       const totalDuration = state.currentSession.exercises.reduce((sum, ex) => {
         return sum + (ex.duration * (ex.sides ? 2 : 1));
@@ -1604,7 +1952,7 @@
 
       document.getElementById('sessionContent').innerHTML = `
         <div class="session-complete">
-          <div class="complete-emoji">🎉</div>
+          <div class="complete-emoji">\uD83C\uDF89</div>
           <div class="complete-title">Awesome Work!</div>
           <div style="font-size: 14px; color: #999; margin-bottom: 24px;">${state.currentSession.name}</div>
           <div class="complete-stats">
@@ -1618,7 +1966,7 @@
             </div>
             <div class="complete-stat-line">
               <span class="complete-stat-label">Streak</span>
-              <span class="complete-stat-value">${getStats().dayStreak} days 🔥</span>
+              <span class="complete-stat-value">${getStats().dayStreak} days \uD83D\uDD25</span>
             </div>
           </div>
           <button class="complete-btn" id="completeBtn">Done</button>
